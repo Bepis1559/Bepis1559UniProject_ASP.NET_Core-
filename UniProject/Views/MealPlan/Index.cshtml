@@ -1,78 +1,145 @@
 ﻿@model IEnumerable<UniProject.Models.Classes.MealPlan>
+@*@using UniProject.ViewModels.MealPlan;
+@model UserMealPlanViewModel*@
 
 @{
     ViewData["Title"] = "Index";
 }
+<h1 class="text-center">MealPlans</h1>
+<div id="mealPlanPageContainer" >
+    
+    <!-- Button trigger modal -->
+    <button id="addMealButton" type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Add a meal plan
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="Name" class="form-label">@Html.DisplayNameFor(model => model.Name)</label>
+                            <input data-purpose="holdName" type="text" class="form-control" id="Name" aria-describedby="nameHelp">
+                            <div id="nameHelp" class="form-text">Choose a name for your meal plan.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Description" class="form-label">@Html.DisplayNameFor(model => model.Description)</label>
+                            <input data-purpose="holdDescription" type="text" class="form-control" id="Description" aria-describedby="descriptionHelp">
+                            <div id="descriptionHelp" class="form-text">Write a short description , which will help you , if you forget what the meal plan was about</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="MacroNutrients" class="form-label">@Html.DisplayNameFor(model => model.MacroNutrients)</label>
+                            <input data-purpose="holdMacros" type="text" class="form-control" id="MacroNutrients" aria-describedby="macroNutrientsHelp">
+                            <div id="MacroNutrients" class="form-text">Enter the nutrients of your plan</div>
+                        </div>
 
-<h1>Index</h1>
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary m-b-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Add a meal plan 
-</button>
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1">
-                    </div>
-                  
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                
+                        <button data-purpose="submit" type="submit" class="btn btn-primary submitBtn" data-bs-dismiss="modal">Submit</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button asp-controller="MealPlan" asp-action ="MealPlan" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                </div>
             </div>
         </div>
     </div>
+
+
+    @if (Model != null && Model.Any())
+    {
+        <table class="table ">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MacroNutrients)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MacroNutrients)
+                        </td>
+                        <td>
+                   
+
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    }
+    else
+    {
+       
+        <p id="mealPlansDefaultParagraph">
+            
+               <strong>
+                    No meal plans found.
+               </strong>
+            
+        </p>
+    }
+
 </div>
 
-<table class="table ">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MacroNutrients)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-   @* <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MacroNutrients)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>*@
-</table>
+<script defer>
+   document.addEventListener('DOMContentLoaded',() =>{
+        const selectBasedOnData = (htmlElement = 'input', typeOfData) => document.querySelector(`${htmlElement}[data-purpose=${typeOfData}]`)
+       
+        const submitButton = selectBasedOnData('button','submit')
+        const nameInput = selectBasedOnData('input','holdName')
+        const descriptionInput = selectBasedOnData('input','holdDescription')
+        const macroNutrientsInput = selectBasedOnData('input','holdMacros')
+      
+        submitButton.addEventListener('click', (e) => {
+            // post Request 
+            e.preventDefault();
+            const mealPlan = {
+                name : nameInput.value,
+                description : descriptionInput.value,
+                macroNutrients: macroNutrientsInput.value
+            }
+            $.ajax({
+                url: '/MealPlan/AddMealPlan',
+                type: 'POST',
+                data: mealPlan,
+                success : function(result) {
+                    swal('Form submitted successfully',{
+                        icon : 'success'
+                    }) 
+                },
+                Error : function(xhr,status,error){
+                    alert(error)
+                }
+            })
+            
+
+
+        })
+   })
+    
+</script>

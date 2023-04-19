@@ -9,7 +9,8 @@ namespace UniProject.Data.Services.Classes
 {
 	public class MealPlansService : BaseService<MealPlan>
 	{
-		public MealPlansService(ApplicationDbContext dbContext) : base(dbContext)
+
+        public MealPlansService(ApplicationDbContext dbContext) : base(dbContext)
 		{
 		}
 	}

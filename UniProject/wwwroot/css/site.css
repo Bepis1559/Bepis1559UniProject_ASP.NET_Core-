@@ -34,3 +34,15 @@ body {
     margin-block: 4em;
 
 }
+
+#addMealButton{
+    margin-block-end : 3.5em;
+}
+#mealPlanPageContainer {
+    
+    text-align: center;
+    padding-block: 2em;
+}
+#mealPlansDefaultParagraph{
+    font-size : clamp(1rem + .4vw , 1rem + .8vw , 1rem + 1.2vw);
+}
