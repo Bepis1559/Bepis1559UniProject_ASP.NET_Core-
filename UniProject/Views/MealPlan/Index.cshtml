@@ -52,7 +52,7 @@
 
     @if (Model != null && Model.Any())
     {
-        <table class="table ">
+        <table class="table table-hover ">
             <thead>
                 <tr>
                     <th>
@@ -83,7 +83,10 @@
                         <td>
                    
 
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            <a class = "btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">
+                                <em>Delete</em>
+                                <i class="bi bi-trash"></i>
+                            </a>
                         </td>
                     </tr>
                 }
@@ -116,13 +119,14 @@
         const macroNutrientsInput = selectBasedOnData('input','holdMacros')
       
         submitButton.addEventListener('click', (e) => {
-            // post Request 
             e.preventDefault();
+           
             const mealPlan = {
                 name : nameInput.value,
                 description : descriptionInput.value,
                 macroNutrients: macroNutrientsInput.value
             }
+            // post Request
             $.ajax({
                 url: '/MealPlan/AddMealPlan',
                 type: 'POST',
@@ -136,6 +140,7 @@
                     alert(error)
                 }
             })
+           
             
 
 

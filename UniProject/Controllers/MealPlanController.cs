@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using UniProject.Data.Classes;
 using UniProject.Data.Services.Classes;
 using UniProject.Models.Classes;
@@ -13,29 +14,30 @@ namespace UniProject.Controllers
         {
             mealPlansService = new MealPlansService(dbContext);
         }
-        public IActionResult Index()
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var MealPlans = await mealPlansService.GetAllAsync();
+            return View("Index", MealPlans);
         }
 
         [HttpPost]
         public async Task<IActionResult> AddMealPlan(MealPlan mealPlan)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 await mealPlansService.CreateAsync(mealPlan);
-                return RedirectToAction("Index");
+                return View("Index", mealPlan);
             }
             return View(mealPlan);
         }
 
-        public async Task<IActionResult> GetMealPlans()
-        {
-               //UserMealPlanViewModel ump = new();
-              var MealPlans = await mealPlansService.GetAllAsync();
-               return View(MealPlans);
-           
-            
-        }
+
+
+
+
     }
 }
