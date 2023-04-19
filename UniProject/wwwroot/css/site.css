@@ -20,3 +20,17 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.m-b-1{
+    margin-block : 1em;
+}
+.m-b-2 {
+    margin-block: 2em;
+}
+.m-b-3 {
+    margin-block: 3em;
+}
+.m-b-4 {
+    margin-block: 4em;
+
+}

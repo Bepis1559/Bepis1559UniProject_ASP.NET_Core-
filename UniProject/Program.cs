@@ -1,8 +1,6 @@
 
 using Microsoft.AspNetCore.Http;
-using JavaScriptEngineSwitcher.ChakraCore;
-using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
-using React.AspNet;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -19,11 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-builder.Services.AddReact();
 
-// Make sure a JS engine is registered, or you will get an error!
-//builder.Services.AddJsEngineSwitcher(options => options.DefaultEngineName = ChakraCoreJsEngine.EngineName)
-//  .AddChakraCore();
 
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -81,10 +75,7 @@ else
 app.UseHttpsRedirection();
 
 
-app.UseReact(configure =>
-{
-	configure.AddScript("./Areas/Identity/Pages/Account/FormDiv.tsx");
-});
+
 
 app.UseStaticFiles();
 
