@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<UniProject.Models.Classes.MealPlan>
-@*@using UniProject.ViewModels.MealPlan;
-@model UserMealPlanViewModel*@
+
 
 @{
     ViewData["Title"] = "Index";
@@ -81,11 +80,11 @@
                             @Html.DisplayFor(modelItem => item.MacroNutrients)
                         </td>
                         <td>
-                   
 
-                            <a class = "btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">
+
+                            <a data-MealPlanId=@Html.DisplayFor(modelItem => item.Id) tabindex="0" data-purpose="deleteMealPlan" class="btn btn-danger ">
                                 <em>Delete</em>
-                                <i class="bi bi-trash"></i>
+                                <i class="bi bi-trash "></i>
                             </a>
                         </td>
                     </tr>
@@ -117,6 +116,7 @@
         const nameInput = selectBasedOnData('input','holdName')
         const descriptionInput = selectBasedOnData('input','holdDescription')
         const macroNutrientsInput = selectBasedOnData('input','holdMacros')
+        const deleteButtons = document.querySelectorAll('a[data-purpose=deleteMealPlan]')
       
         submitButton.addEventListener('click', (e) => {
             e.preventDefault();
@@ -132,7 +132,7 @@
                 type: 'POST',
                 data: mealPlan,
                 success : function(result) {
-                    swal('Form submitted successfully',{
+                    swal('Form submitted successfully!',{
                         icon : 'success'
                     }) 
                 },
@@ -140,11 +140,49 @@
                     alert(error)
                 }
             })
-           
-            
-
 
         })
+       
+
+
+
+
+
+
+
+
+      
+        deleteButtons.forEach(deleteButton => {
+            deleteButton.addEventListener('click', () => {
+                let mealPlanId = deleteButton.getAttribute('data-MealPlanId');
+
+                swal({
+                    title: 'Are you sure you want to delete that?',
+                    icon: 'warning',
+                    buttons: true,
+                    dangerMode: true
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            url: '/MealPlan/DeleteMealPlanById',
+                            type: 'DELETE',
+                            data: { id: mealPlanId },
+                            success: function (result) {
+                                swal('Meal plan deleted successfully!', {
+                                    icon: 'success'
+                                });
+                            },
+                            error: function (xhr, status, error) {
+                                swal(error, {
+                                    icon: 'warning'
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+        });
+      
    })
     
 </script>
