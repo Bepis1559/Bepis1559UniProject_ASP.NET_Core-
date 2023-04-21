@@ -20,7 +20,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form method="post">
                         <div class="mb-3">
                             <label for="Name" class="form-label">@Html.DisplayNameFor(model => model.Name)</label>
                             <input data-purpose="holdName" type="text" class="form-control" id="Name" aria-describedby="nameHelp">
@@ -37,11 +37,11 @@
                             <div id="MacroNutrients" class="form-text">Enter the nutrients of your plan</div>
                         </div>
 
-                        <button data-purpose="submit" type="submit" class="btn btn-primary submitBtn" data-bs-dismiss="modal">Submit</button>
+                        <button  data-purpose="submit" type="submit" class="btn btn-primary submitBtn" data-bs-dismiss="modal">Submit</button>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button asp-controller="MealPlan" asp-action ="MealPlan" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button  type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 
                 </div>
             </div>
