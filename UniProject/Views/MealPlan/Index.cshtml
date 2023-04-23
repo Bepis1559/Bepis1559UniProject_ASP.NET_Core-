@@ -4,15 +4,15 @@
 @{
     ViewData["Title"] = "Index";
 }
-<h1 class="text-center">MealPlans</h1>
-<div id="mealPlanPageContainer" >
-    
+
+<section id="mealPlanPageContainer" class="upTraslated opacity-0">
+    <h1 class="text-center">MealPlans</h1>
     <!-- Button trigger modal -->
     <button id="addMealButton" type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#exampleModal">
         Add a meal plan
     </button>
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
+    <section class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -46,7 +46,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
 
     @if (Model != null && Model.Any())
@@ -106,7 +106,7 @@
         </p>
     }
 
-</div>
+</section>
 
 <script defer>
    document.addEventListener('DOMContentLoaded',() =>{
@@ -117,7 +117,10 @@
         const descriptionInput = selectBasedOnData('input','holdDescription')
         const macroNutrientsInput = selectBasedOnData('input','holdMacros')
         const deleteButtons = document.querySelectorAll('a[data-purpose=deleteMealPlan]')
-      
+
+
+
+        // post Request
         submitButton.addEventListener('click', (e) => {
             e.preventDefault();
            
@@ -127,7 +130,7 @@
                 macroNutrients: macroNutrientsInput.value,
                 
             }
-            // post Request
+           
             $.ajax({
                 url: '/MealPlan/AddMealPlan',
                 type: 'POST',
@@ -143,15 +146,7 @@
             })
 
         })
-       
-
-
-
-
-
-
-
-
+        // delete request
       
         deleteButtons.forEach(deleteButton => {
             deleteButton.addEventListener('click', () => {
@@ -183,6 +178,25 @@
                 });
             });
         });
+
+        const mealPlanPageContainer = document.getElementById('mealPlanPageContainer')
+       
+        const removeClassFromEntry = (className, entry) => {
+            return entry.target.classList.remove(className, entry.isIntersecting)
+        }
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+
+                
+                removeClassFromEntry('opacity-0', entry)
+                removeClassFromEntry('upTraslated', entry)
+
+            })
+        }, {
+            threshold: 1,
+        })
+
+        observer.observe(mealPlanPageContainer)
       
    })
     

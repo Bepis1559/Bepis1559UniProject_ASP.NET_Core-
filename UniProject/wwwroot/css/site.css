@@ -1,48 +1,94 @@
-html {
-  font-size: 14px;
+/*resets*/
+
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+img,
+picture,
+svg,
+video {
+    display: block;
+    max-width: 100%;
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+input,
+textarea,
+button,
+select {
+    font: inherit;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+* {
+    margin: 0;
+    padding: 0;
+    font: inherit;
 }
 
 body {
-  margin-bottom: 60px;
-}
-
-.m-b-1{
-    margin-block : 1em;
-}
-.m-b-2 {
-    margin-block: 2em;
-}
-.m-b-3 {
-    margin-block: 3em;
-}
-.m-b-4 {
-    margin-block: 4em;
-
-}
-
-#addMealButton{
-    margin-block-end : 3.5em;
-}
-#mealPlanPageContainer {
+   
+    min-height: 100vh;
     
+}
+
+html {
+    color-scheme: dark light;
+}
+
+
+/* =============================== */
+
+
+
+
+/*navigation */
+:root{
+    --opacityTransition : 4s;
+    --translateTranstion : 2s;
+}
+@media (prefers-reduced-motion) {
+    :root {
+        --opacityTransition: 0s;
+        --translateTranstion: 0s;
+    }
+}
+.opacity-0 {
+    opacity: 0;
+}
+.rightTranslated {
+    translate: 100vw;
+}
+.nav-item {
+    border-radius: 10px;
+    outline: 1px solid transparent;
+    transition: outline-color 0.25s;
+}
+    .nav-item:hover {
+        outline-color: #0B5ED7;
+    }
+
+.leftTraslated{
+    translate : -100vw;
+}
+#leftPartNav, #rightPartNav, section#mealPlanPageContainer {
+    transition: opacity var(--opacityTransition), translate var(--translateTranstion);
+}
+/*MealPlan page*/
+#addMealButton {
+    margin-block-end: 3.5em;
+}
+.upTraslated{
+    translate : 0 -100vh;
+}
+section#mealPlanPageContainer {
     text-align: center;
     padding-block: 2em;
+    
 }
-#mealPlansDefaultParagraph{
-    font-size : clamp(1rem + .4vw , 1rem + .8vw , 1rem + 1.2vw);
+
+#mealPlansDefaultParagraph {
+    font-size: clamp(1rem + .4vw, 1rem + .8vw, 1rem + 1.2vw);
 }

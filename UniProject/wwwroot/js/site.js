@@ -1,4 +1,26 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿document.addEventListener('DOMContentLoaded', () => {
+   
+    
+    const rightPartNav = document.getElementById('rightPartNav')
+    const leftPartNav = document.getElementById('leftPartNav')
+    const removeClassFromEntry = (className, entry) => {
+        return entry.target.classList.remove(className, entry.isIntersecting)
+    }
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          
+            removeClassFromEntry('rightTranslated', entry)
+            removeClassFromEntry('opacity-0', entry)
+            removeClassFromEntry('upTraslated',entry)
+            removeClassFromEntry('leftTraslated',entry)
 
-// Write your JavaScript code.
+        })
+    }, {
+        threshold: 1,
+    })
+    
+    observer.observe(leftPartNav)
+    observer.observe(rightPartNav)
+    
+
+})
