@@ -111,7 +111,7 @@ Entities and their relationships
 
 
 
-Relationships : 
+Relations : 
 
 
 1.	User Entity:
