@@ -4,15 +4,18 @@ using System.Runtime.InteropServices;
 using UniProject.Data.Classes;
 using UniProject.Data.Services.Classes;
 using UniProject.Models.Classes;
+using Microsoft.AspNetCore.Identity;
 
 namespace UniProject.Controllers
 {
     public class MealPlanController : Controller
     {
         private readonly MealPlansService mealPlansService;
-        public MealPlanController(ApplicationDbContext dbContext)
+        private readonly UserManager<User> UserManager;
+        public MealPlanController(ApplicationDbContext dbContext,UserManager<User> userManager)
         {
             mealPlansService = new MealPlansService(dbContext);
+            UserManager = userManager;
         }
 
 
@@ -27,11 +30,17 @@ namespace UniProject.Controllers
         [HttpPost]
         public async Task<IActionResult> AddMealPlan(MealPlan mealPlan)
         {
+           
 
             if (ModelState.IsValid)
             {
-                await mealPlansService.CreateAsync(mealPlan);
-                return View("Index", mealPlan);
+                var user = await UserManager.GetUserAsync(User);
+                if(user != null)
+                {
+                    mealPlan.UserId = user.Id;
+                    await mealPlansService.CreateAsync(mealPlan);
+                    return View("Index", mealPlan);
+                }
             }
             return RedirectToAction("Index");
         }
@@ -40,12 +49,11 @@ namespace UniProject.Controllers
 
         public async Task<IActionResult> DeleteMealPlanById(string id)
         {
-            if (ModelState.IsValid)
-            {
+            
                 await mealPlansService.DeleteByIdAsync(id);
                 return View("Index");
-            }
-            return RedirectToAction("Index");
+            
+            
 
         }
 
