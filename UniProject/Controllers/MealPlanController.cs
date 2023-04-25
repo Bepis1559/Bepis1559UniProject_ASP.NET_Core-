@@ -12,10 +12,12 @@ namespace UniProject.Controllers
     {
         private readonly MealPlansService mealPlansService;
         private readonly UserManager<User> UserManager;
-        public MealPlanController(ApplicationDbContext dbContext,UserManager<User> userManager)
+        private readonly ILogger<MealController> _logger;
+        public MealPlanController(ApplicationDbContext dbContext,UserManager<User> userManager, ILogger<MealController> logger)
         {
             mealPlansService = new MealPlansService(dbContext);
             UserManager = userManager;
+            _logger = logger;
         }
 
 
@@ -58,11 +60,37 @@ namespace UniProject.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetMealPlanById(string id)
+        public async Task<JsonResult> GetMealPlans()
         {
-               
-              MealPlan mealPlan = await mealPlansService.GetByIdAsync(id);
-               return Json(mealPlan);
+            // Retrieve a list of MealPlans from the database
+            var mealPlans = await mealPlansService.GetAllAsync();
+
+            // Return the list of MealPlans as JSON
+            return Json(mealPlans);
         }
+
+
+        [HttpGet]
+
+        public async Task<JsonResult> GetMealPlanById(string id)
+        {
+
+            var result = await mealPlansService.GetByIdAsync(id);
+            return Json(result);
+
+        }
+
+        [HttpGet]
+
+        public async Task<JsonResult> GetMealPlanByName(string name)
+        {
+
+            var result = await mealPlansService.GetByNameAsync(name);
+            //_logger.LogDebug(result.ToString());
+            return Json(result);
+
+        }
+
+
     }
 }

@@ -1,0 +1,284 @@
+﻿@model UniProject.Models.Classes.Meal
+
+@{
+    ViewData["Title"] = "View";
+}
+
+
+<div class="container upTraslated opacity-0" id="mealPageContainer" >
+   
+    <h1 class = "text-center">Meals</h1>
+   
+    <div class="form-group">
+
+
+        <div class="mealAddBtnContainer">
+            <label for="mealPlanSelect">Select Meal Plan:</label>
+            <!-- Button trigger modal -->
+            <button id="addMealButton" type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Add a meal 
+            </button>
+        </div>
+        <select name="mealPlanSelect" class="form-control" id="mealPlanSelect">
+            <option id="intialOption" aria-disabled = "true" aria-hidden="true" selected></option>
+        </select>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="btn btn-close btn-light " data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post">
+                                <div class="mb-3">
+                                    <label for="Name" class="form-label">@Html.DisplayNameFor(model => model.Name)</label>
+                                    <input  type="text" class="form-control" id="Name" aria-describedby="nameHelp">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="Description" class="form-label">@Html.DisplayNameFor(model => model.Description)</label>
+                                    <input  type="text" class="form-control" id="Description" aria-describedby="descriptionHelp">
+                                </div>
+                                <div class="mb-3">
+                                <label for="Ingredients" class="form-label">@Html.DisplayNameFor(model => model.Ingredients)</label>
+                                <input type="text" class="form-control" id="Ingredients" aria-describedby="IngredientsHelp">
+                                </div>
+                                <div class="mb-3">
+                                <label for="CalorieCount" class="form-label">@Html.DisplayNameFor(model => model.CalorieCount)</label>
+                                <input type="text" class="form-control" id="CalorieCount" aria-describedby="CalorieCountsHelp">
+                                </div>
+                                
+
+                                <button id="submitMealFormBtn" type="submit" class="btn btn-primary submitBtn" data-bs-dismiss="modal">Submit</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+       
+       
+
+       
+    </div>
+
+</div>
+
+
+
+
+<script defer>
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        
+        const getById = (id) => document.getElementById(id)
+        const createElement = (el) => document.createElement(el) 
+        const createElAndAddTextContent = (el,text) => {
+           const element = document.createElement(el)
+           element.textContent = text
+           return element
+        }
+        const appendChildren = (parent,...children) => children.forEach(child => parent.appendChild(child))
+        const mealPageContainer = getById('mealPageContainer')
+        const mealPlanSelect = getById('mealPlanSelect');
+        const Name = getById('Name')
+        const Description = getById('Description')
+        const Ingredients = getById('Ingredients')
+        const CalorieCount = getById('CalorieCount')
+        const submitButton = getById('submitMealFormBtn')
+        const intialOption = getById('intialOption')
+        const observer = new IntersectionObserver(entries =>{
+            entries.forEach(entry =>{
+                entry.target.classList.remove('opacity-0')
+                entry.target.classList.remove('upTraslated')
+            })
+        })
+        observer.observe(mealPageContainer)
+        let MealPlanId
+        let Meals
+
+        const options = []
+        
+        // Add a change event listener to the mealPlanSelect element
+        mealPlanSelect.addEventListener('change', () => {
+            if (mealPlanSelect.contains(intialOption)) {
+                mealPlanSelect.removeChild(intialOption)
+            }
+            // Remove any existing sections from the mealPageContainer
+            let sections = mealPageContainer.querySelectorAll('section');
+            sections.forEach(section => {
+
+                section.classList.remove('fadeIn')
+                section.classList.add('fadeOut');
+                setTimeout(() =>{
+                    if (mealPageContainer.contains(section)) {
+                        mealPageContainer.removeChild(section);
+                    }
+                },2000)
+            });
+
+            // Get the selected MealPlan name
+            let selectedMealPlanName = mealPlanSelect.options[mealPlanSelect.selectedIndex].text;
+
+         
+           
+
+            // Create a new section for the selected MealPlan
+
+
+            let mealsSection = createElement('section')
+            mealsSection.classList.add('individualMealPlanSection')
+          
+           
+           
+            
+            
+            mealsSection.classList.add('fadeIn');
+            
+            mealPageContainer.appendChild(mealsSection);
+
+          // get the currently selected MealPlan name and make a get request by name , so the MealPlan id can be taken
+          // get by name
+           
+           let MealPlanName = mealPlanSelect.value.trim()
+            $.ajax({
+                url: '/MealPlan/GetMealPlanByName',
+                type: 'GET',
+                data: { name: MealPlanName },
+                success: function (result) {
+                 
+                    MealPlanId = result.id
+
+
+                    // get all meals for a particular MealPlan , based on this MealPlanId
+                    $.ajax({
+                        url: '/Meal/GetAllMealsBasedOnMealPlanId',
+                        type: 'GET',
+                        data: { mealPlanId: MealPlanId },
+                        success: function (data) {
+
+                           
+                            //console.log(data)
+
+                            const caption = document.createElement('caption')
+                            caption.textContent = `Meals in ${selectedMealPlanName}:`
+                            const mealsTable = createElement('table')
+                                
+                            mealsTable.classList.add('table')
+                            
+                            const tableHead = createElement('thead')
+                         
+                            const nameTH = createElAndAddTextContent('th','Name')
+                            const descriptionTH = createElAndAddTextContent('th', 'Description')
+                            const ingredientsTH = createElAndAddTextContent('th', 'Ingredients')
+                            const calorieCountTH = createElAndAddTextContent('th', 'CalorieCount')
+
+                            appendChildren(tableHead, nameTH, descriptionTH, ingredientsTH, calorieCountTH,)
+
+                            
+
+                           const tableBody = createElement('tbody')
+                        
+                            data.forEach(meal =>{
+                                const tableRow = createElement('tr')
+                                const name = createElAndAddTextContent('td',meal.name)
+                                const description = createElAndAddTextContent('td', meal.description)
+                                const ingredients = createElAndAddTextContent('td', meal.ingredients)
+                                const calorieCount = createElAndAddTextContent('td', meal.calorieCount)
+                               
+
+                                appendChildren(tableRow,name,description,ingredients,calorieCount)
+                                tableBody.appendChild(tableRow)
+
+                            })
+
+                            appendChildren(mealsTable, caption, tableHead,tableBody)
+                            mealsSection.appendChild(mealsTable)
+                            
+                        }
+                    });
+                  
+                }
+            });
+
+            
+        });
+
+        // get mealPlans and add them as a select option
+        
+        $.ajax({
+            url: '/MealPlan/GetMealPlans',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+             
+                // Loop through the list of MealPlans returned from the server
+                for (let i = 0; i < data.length; i++) {
+                    // Create a new option element
+                    let option = document.createElement('option');
+                    
+                    option.value = `${data[i].name}`;
+                    option.text = data[i].name;
+                  
+                    
+                    // Append the option to the dropdown list
+                    mealPlanSelect.appendChild(option);
+
+                    // populate the array with current options
+                    options.push(option)
+                   
+                    
+                }
+            }
+        });
+       
+      
+       
+        // add a meal - post request
+       
+        
+        submitButton.addEventListener('click',(e) =>{
+            e.preventDefault();
+           
+            if (mealPlanSelect.contains(intialOption)) {
+                swal('You have to select a meal plan first !', {
+                    icon: 'info'
+                })
+            } else{
+                const meal = {
+                    Name: Name.value,
+                    Description: Description.value,
+                    Ingredients: Ingredients.value,
+                    CalorieCount: parseFloat(CalorieCount.value).toString(),
+                    MealPlanId: MealPlanId
+                }
+
+               
+                $.ajax({
+                    url: '/Meal/AddMeal',
+                    type: 'POST',
+
+                    data: meal,
+                    success: function (result) {
+                        swal('Form submitted successfully!', {
+                            icon: 'success'
+                        })
+                    },
+                    Error: function (xhr, status, error) {
+                        alert(error)
+                    }
+                })
+            }
+            
+        })
+
+        
+       
+    })
+</script>
+
+

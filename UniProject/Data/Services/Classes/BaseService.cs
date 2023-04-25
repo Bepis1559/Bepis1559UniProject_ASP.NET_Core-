@@ -21,6 +21,8 @@ namespace UniProject.Data.Services.Classes
 
 		public async Task<T> GetByIdAsync(string id) => await _dbContext.Set<T>().FindAsync(id);
 
+		
+
 		public async Task<T> CreateAsync(T entity)
 		{
 			_dbContext.Set<T>().Add(entity);

@@ -30,9 +30,5 @@ namespace UniProject.Models.Classes
 
         public string? MealPlanId { get; set; }
 
-
-
-
-
     }
 }

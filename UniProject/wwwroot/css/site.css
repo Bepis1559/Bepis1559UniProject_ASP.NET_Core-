@@ -1,6 +1,12 @@
 /*resets*/
 
-
+:root {
+    --pageContainerBg : #333;
+    --overallBackground: #171717;
+    --overallBorderRadius : 15px;
+    --opacityTransition: 2s;
+    --translateTranstion: 2s;
+}
 *,
 *::before,
 *::after {
@@ -19,19 +25,22 @@ input,
 textarea,
 button,
 select {
+  
     font: inherit;
 }
 
 * {
+    
     margin: 0;
     padding: 0;
     font: inherit;
 }
 
 body {
+    color: white;
    
+    font-family: Arial, Helvetica, sans-serif;
     min-height: 100vh;
-    
 }
 
 html {
@@ -39,28 +48,58 @@ html {
 }
 
 
-/* =============================== */
 
-
-
-
-/*navigation */
-:root{
-    --opacityTransition : 4s;
-    --translateTranstion : 2s;
+#nav, body  {
+    background-color: var(--overallBackground) !important;
 }
+    
+
+
+
+
 @media (prefers-reduced-motion) {
-    :root {
+    : root {
         --opacityTransition: 0s;
         --translateTranstion: 0s;
     }
 }
-.opacity-0 {
-    opacity: 0;
+
+input,select {
+    border-radius : 15px !important;
+    border : none !important;
+    color : white !important;
+    background: var(--overallBackground) !important;
 }
-.rightTranslated {
-    translate: 100vw;
+
+caption{
+    font-weight : bold;
+    text-align : center;
+    caption-side : top;
+    color : white
 }
+table{
+    color : white !important;
+}
+    /* =============================== */
+
+
+    /*modal*/
+.modal-content {
+    background-color: var(--pageContainerBg);
+    border-radius: var(--overallBorderRadius);
+}
+
+
+
+
+    /*navigation */
+
+
+
+#nav * {
+    color: white !important;
+}
+
 .nav-item {
     border-radius: 10px;
     outline: 1px solid transparent;
@@ -70,25 +109,117 @@ html {
         outline-color: #0B5ED7;
     }
 
+
+
+
+ /* intersection observer related  */ 
+
 .leftTraslated{
     translate : -100vw;
 }
-#leftPartNav, #rightPartNav, section#mealPlanPageContainer {
+.opacity-0 {
+    opacity: 0;
+}
+
+.rightTranslated {
+    translate: 100vw;
+}
+#leftPartNav, #rightPartNav, section#mealPlanPageContainer, #mealPageContainer {
     transition: opacity var(--opacityTransition), translate var(--translateTranstion);
 }
+
+.upTraslated {
+    translate: 0 -100vh;
+}
+
 /*MealPlan page*/
-#addMealButton {
+#mealPlanPageContainer #addMealButton {
     margin-block-end: 3.5em;
 }
-.upTraslated{
-    translate : 0 -100vh;
-}
-section#mealPlanPageContainer {
+
+#mealPlanPageContainer {
+    
+    background : var(--pageContainerBg);
+    border-radius : var(--overallBorderRadius);
     text-align: center;
-    padding-block: 2em;
+    padding: 2em;
     
 }
 
+
+
+    #mealPlanPageContainer * {
+        color: white;
+    }
 #mealPlansDefaultParagraph {
     font-size: clamp(1rem + .4vw, 1rem + .8vw, 1rem + 1.2vw);
+}
+
+
+
+
+
+/*meal Page*/
+
+
+#mealPageContainer {
+    border-radius: var(--overallBorderRadius);
+    background: #424242;
+    width: min(80%,1000px);
+    padding: 1em;
+    position: relative;
+}
+
+
+
+.fadeOut {
+    position: absolute;
+    width: calc(100% - 1em );
+    animation: fadeOut 2s forwards;
+}
+
+
+.fadeIn {
+    animation: fadeIn 2s forwards;
+}
+
+@keyframes fadeOut{
+
+    100% {
+        translate: -100vw;
+        opacity: 0;
+    }
+}
+@keyframes fadeIn{
+    0%{
+        translate : 0 100vh;
+        /*opacity: 0;*/
+    }
+    100% {
+        translate: 0 ;
+        opacity: 1;
+    }
+}
+.individualMealPlanSection {
+    justify-content : space-between;
+    align-items : center;
+    display : flex;
+    color: white;
+    border-radius: 10px;
+    padding: 1em;
+    background: #333;
+}
+
+.mealAddBtnContainer {
+    justify-content: space-between;
+    
+    padding-block-end: .5em;
+    display: flex;
+    
+}
+.mealAddBtnContainer label{
+    margin : 0;
+    display : flex;
+    align-items : center;
+    
 }
