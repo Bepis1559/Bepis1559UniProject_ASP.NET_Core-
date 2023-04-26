@@ -10,12 +10,12 @@ namespace UniProject.Controllers
 {
     public class MealPlanController : Controller
     {
-        private readonly MealPlansService mealPlansService;
+        private readonly MealPlansService _mealPlansService;
         private readonly UserManager<User> UserManager;
         private readonly ILogger<MealController> _logger;
-        public MealPlanController(ApplicationDbContext dbContext,UserManager<User> userManager, ILogger<MealController> logger)
+        public MealPlanController(UserManager<User> userManager,MealPlansService mealPlansService, ILogger<MealController> logger)
         {
-            mealPlansService = new MealPlansService(dbContext);
+            _mealPlansService = mealPlansService;
             UserManager = userManager;
             _logger = logger;
         }
@@ -25,7 +25,7 @@ namespace UniProject.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var MealPlans = await mealPlansService.GetAllAsync();
+            var MealPlans = await _mealPlansService.GetAllAsync();
             return View("Index", MealPlans);
         }
 
@@ -40,8 +40,9 @@ namespace UniProject.Controllers
                 if(user != null)
                 {
                     mealPlan.UserId = user.Id;
-                    await mealPlansService.CreateAsync(mealPlan);
-                    return View("Index", mealPlan);
+                    await _mealPlansService.CreateAsync(mealPlan);
+                    var allMealPlans = await _mealPlansService.GetAllAsync();
+                    return View("Index", allMealPlans);
                 }
             }
             return RedirectToAction("Index");
@@ -52,7 +53,7 @@ namespace UniProject.Controllers
         public async Task<IActionResult> DeleteMealPlanById(string id)
         {
             
-                await mealPlansService.DeleteByIdAsync(id);
+                await _mealPlansService.DeleteByIdAsync(id);
                 return View("Index");
             
             
@@ -63,7 +64,7 @@ namespace UniProject.Controllers
         public async Task<JsonResult> GetMealPlans()
         {
             // Retrieve a list of MealPlans from the database
-            var mealPlans = await mealPlansService.GetAllAsync();
+            var mealPlans = await _mealPlansService.GetAllAsync();
 
             // Return the list of MealPlans as JSON
             return Json(mealPlans);
@@ -75,7 +76,7 @@ namespace UniProject.Controllers
         public async Task<JsonResult> GetMealPlanById(string id)
         {
 
-            var result = await mealPlansService.GetByIdAsync(id);
+            var result = await _mealPlansService.GetByIdAsync(id);
             return Json(result);
 
         }
@@ -85,7 +86,7 @@ namespace UniProject.Controllers
         public async Task<JsonResult> GetMealPlanByName(string name)
         {
 
-            var result = await mealPlansService.GetByNameAsync(name);
+            var result = await _mealPlansService.GetByNameAsync(name);
             //_logger.LogDebug(result.ToString());
             return Json(result);
 

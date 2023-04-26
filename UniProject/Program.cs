@@ -33,25 +33,45 @@ builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfi
 
 
 
-void AddScopedService<TEntity, TService>()
-	where TEntity : class
-	where TService : class, IService<TEntity>
+
+//builder.Services.AddScoped<MealPlansService>();
+//builder.Services.AddScoped<UsersService>();
+//builder.Services.AddScoped<BodyweightTrackersService>();
+//builder.Services.AddScoped<CalorieTrackerService>();
+//builder.Services.AddScoped<ExercisesService>();
+//builder.Services.AddScoped<MealsService>();
+//builder.Services.AddScoped<MealPlansService>();
+//builder.Services.AddScoped<ProgressTrackingsService>();
+//builder.Services.AddScoped<WaterIntakesService>();
+//builder.Services.AddScoped<WorkoutsService>();
+//builder.Services.AddScoped<WorkoutPlansService>();
+//builder.Services.AddScoped<WorkoutSchedulesService>();
+
+
+static void AddServices(IServiceCollection services, params Type[] types)
 {
-	builder?.Services.AddScoped<IService<TEntity>, TService>();
+    foreach (var type in types)
+    {
+        services.AddScoped(type);
+    }
 }
 
-AddScopedService<User,UsersService>();
-AddScopedService<BodyweightTracker,BodyweightTrackersService>();
-AddScopedService<CalorieTracker,CalorieTrackerService>();
-AddScopedService<Challenge,ChallengesService>();
-AddScopedService<Exercise,ExercisesService>();
-AddScopedService<Meal,MealsService>();
-AddScopedService<MealPlan,MealPlansService>();
-AddScopedService<ProgressTracking,ProgressTrackingsService>();
-AddScopedService<WaterIntake,WaterIntakesService>();
-AddScopedService<Workout,WorkoutsService>();
-AddScopedService<WorkoutPlan,WorkoutPlansService>();
-AddScopedService<WorkoutSchedule,WorkoutSchedulesService>();
+AddServices(builder.Services,
+    typeof(MealPlansService),
+    typeof(UsersService),
+    typeof(BodyweightTrackersService),
+    typeof(CalorieTrackerService),
+    typeof(ExercisesService),
+    typeof(MealsService),
+    typeof(MealPlansService),
+    typeof(ProgressTrackingsService),
+    typeof(WaterIntakesService),
+    typeof(WorkoutsService),
+    typeof(WorkoutPlansService),
+    typeof(WorkoutSchedulesService));
+
+
+
 
 
 
