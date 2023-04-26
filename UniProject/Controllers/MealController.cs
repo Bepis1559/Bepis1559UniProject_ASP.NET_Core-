@@ -10,11 +10,11 @@ namespace UniProject.Controllers
 {
     public class MealController : Controller
     {
-        private readonly MealsService mealsService;
+        private readonly MealsService _mealsService;
         private readonly ILogger<MealController> _logger;
-        public MealController(ApplicationDbContext dbContext, ILogger<MealController> logger)
+        public MealController(MealsService mealsService, ILogger<MealController> logger)
         {
-            mealsService = new MealsService(dbContext);
+            _mealsService = mealsService;
             _logger = logger;
         }
         public ActionResult Index()
@@ -24,7 +24,7 @@ namespace UniProject.Controllers
         [HttpGet]
         public async Task<JsonResult> GetAllMealsBasedOnMealPlanId(string mealPlanId)
         {
-            var mealPlans = await mealsService.GetAllAsync();
+            var mealPlans = await _mealsService.GetAllAsync();
             var mealsOfChosenPlan = mealPlans.Where(mp => mp.MealPlanId == mealPlanId).ToList();
             //_logger.LogWarning(mealPlanId);
             return Json(mealsOfChosenPlan);
@@ -38,7 +38,7 @@ namespace UniProject.Controllers
             if (ModelState.IsValid)
             {
                 _logger.LogInformation("This is a log message.");
-                await mealsService.CreateAsync(meal);
+                await _mealsService.CreateAsync(meal);
                 return View("Index", meal);
             }
             else
