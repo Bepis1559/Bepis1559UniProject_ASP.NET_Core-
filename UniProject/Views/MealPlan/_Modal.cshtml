@@ -1,0 +1,75 @@
+﻿@model IEnumerable<UniProject.Models.Classes.MealPlan>
+<button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#addMealPlan">
+    Add a meal plan
+</button>
+<!-- Modal -->
+<div class="modal fade" id="addMealPlan" tabindex="-1" aria-labelledby="addMealPlanLabel" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addMealPlanLabel">Modal title</h5>
+                <button type="button" class="btn btn-close  btn-light" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    <div class="mb-3">
+                        <label for="Name" class="form-label">@Html.DisplayNameFor(model => model.Name)</label>
+                        <input data-purpose="holdName" type="text" class="form-control" id="Name" aria-describedby="nameHelp">
+                        <div id="nameHelp" class="form-text">Choose a name for your meal plan.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Description" class="form-label">@Html.DisplayNameFor(model => model.Description)</label>
+                        <input data-purpose="holdDescription" type="text" class="form-control" id="Description" aria-describedby="descriptionHelp">
+                        <div id="descriptionHelp" class="form-text">Write a short description , which will help you , if you forget what the meal plan was about</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="MacroNutrients" class="form-label">@Html.DisplayNameFor(model => model.MacroNutrients)</label>
+                        <input data-purpose="holdMacros" type="text" class="form-control" id="MacroNutrients" aria-describedby="macroNutrientsHelp">
+                        <div id="MacroNutrients" class="form-text">Enter the nutrients of your plan</div>
+                    </div>
+
+                    <button data-purpose="submit" type="submit" class="btn btn-primary submitBtn" data-bs-dismiss="modal">Submit</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script defer>
+    const selectBasedOnData = (htmlElement = 'input', typeOfData) => document.querySelector(`${htmlElement}[data-purpose=${typeOfData}]`)
+
+    const submitButton = selectBasedOnData('button', 'submit')
+    const nameInput = selectBasedOnData('input', 'holdName')
+    const descriptionInput = selectBasedOnData('input', 'holdDescription')
+    const macroNutrientsInput = selectBasedOnData('input', 'holdMacros')
+    // post Request
+    submitButton.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        const mealPlan = {
+            name: nameInput.value,
+            description: descriptionInput.value,
+            macroNutrients: macroNutrientsInput.value,
+
+        }
+        console.log(mealPlan)
+        $.ajax({
+            url: '/MealPlan/AddMealPlan',
+            type: 'POST',
+            data: mealPlan,
+            success: function (result) {
+                swal('Form submitted successfully!', {
+                    icon: 'success'
+                })
+            },
+            Error: function (xhr, status, error) {
+                alert(error)
+            }
+        })
+
+    })
+</script>

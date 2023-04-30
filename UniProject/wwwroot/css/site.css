@@ -80,6 +80,10 @@ caption{
 table{
     color : white !important;
 }
+
+button{
+    border-radius : 15px !important;
+}
     /* =============================== */
 
 
@@ -155,7 +159,14 @@ table{
     font-size: clamp(1rem + .4vw, 1rem + .8vw, 1rem + 1.2vw);
 }
 
+#mealPlanPageContainer #mealPlanAddBtnContainer  {
+    display : flex;
+    justify-content : flex-end;
+    padding-block-end : 1em;
+    
+}
 
+  
 
 
 
@@ -170,13 +181,13 @@ table{
     position: relative;
 }
 
+    
 
-
-.fadeOut {
-    position: absolute;
-    width: calc(100% - 1em );
-    animation: fadeOut 2s forwards;
-}
+    .fadeOut {
+        position: absolute;
+        width: calc(100% - 1em );
+        animation: fadeOut 2s forwards;
+    }
 
 
 .fadeIn {
