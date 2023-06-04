@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using UniProject.Models.Interfaces;
 
 namespace UniProject.Models.Classes
 {
-    public class CalorieTracker
+    public class CalorieTracker : IId
     {
         [Key]
         public string Id { get; set; }

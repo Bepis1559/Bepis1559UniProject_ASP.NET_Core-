@@ -10,12 +10,14 @@ namespace UniProject.Controllers
 {
     public class MealPlanController : Controller
     {
-        private readonly MealPlansService _mealPlansService;
+       
+      //  private readonly MealsService _mealsService;
         private readonly UserManager<User> UserManager;
         private readonly ILogger<MealController> _logger;
-        public MealPlanController(UserManager<User> userManager,MealPlansService mealPlansService, ILogger<MealController> logger)
+        private readonly ServiceRepository _serviceRepository;
+        public MealPlanController(UserManager<User> userManager,ServiceRepository serviceRepository, ILogger<MealController> logger)
         {
-            _mealPlansService = mealPlansService;
+            _serviceRepository = serviceRepository;
             UserManager = userManager;
             _logger = logger;
         }
@@ -25,7 +27,7 @@ namespace UniProject.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var MealPlans = await _mealPlansService.GetAllAsync();
+            var MealPlans = await _serviceRepository.GetAllAsync<MealPlan>();
             return View("Index", MealPlans);
         }
 
@@ -40,8 +42,8 @@ namespace UniProject.Controllers
                 if(user != null)
                 {
                     mealPlan.UserId = user.Id;
-                    await _mealPlansService.CreateAsync(mealPlan);
-                    var allMealPlans = await _mealPlansService.GetAllAsync();
+                    await _serviceRepository.CreateAsync(mealPlan);
+                    var allMealPlans = await _serviceRepository.GetAllAsync<MealPlan>();
                     return View("Index", allMealPlans);
                 }
             }
@@ -52,19 +54,20 @@ namespace UniProject.Controllers
 
         public async Task<IActionResult> DeleteMealPlanById(string id)
         {
-            
-                await _mealPlansService.DeleteByIdAsync(id);
-                return View("Index");
-            
-            
-
+            // delete all meals of this plan 
+            List<Meal> allMeals = await _serviceRepository.GetAllAsync<Meal>();
+            List<Meal> currentPlanMeals = allMeals.Where(meal => meal.MealPlanId == id).ToList();
+            await _serviceRepository.DeleteAllAsync(currentPlanMeals);
+            // delete the meal plan itself
+            await _serviceRepository.DeleteByIdAsync<MealPlan>(id);
+            return View("Index");
         }
 
         [HttpGet]
         public async Task<JsonResult> GetMealPlans()
         {
             // Retrieve a list of MealPlans from the database
-            var mealPlans = await _mealPlansService.GetAllAsync();
+            var mealPlans = await _serviceRepository.GetAllAsync<MealPlan>();
 
             // Return the list of MealPlans as JSON
             return Json(mealPlans);
@@ -76,7 +79,7 @@ namespace UniProject.Controllers
         public async Task<JsonResult> GetMealPlanById(string id)
         {
 
-            var result = await _mealPlansService.GetByIdAsync(id);
+            var result = await _serviceRepository.GetByIdAsync<MealPlan>(id);
             return Json(result);
 
         }
@@ -86,8 +89,8 @@ namespace UniProject.Controllers
         public async Task<JsonResult> GetMealPlanByName(string name)
         {
 
-            var result = await _mealPlansService.GetByNameAsync(name);
-            //_logger.LogDebug(result.ToString());
+            var result = await _serviceRepository.GetByNameAsync<MealPlan>(name);
+           
             return Json(result);
 
         }

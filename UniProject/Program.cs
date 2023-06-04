@@ -35,40 +35,32 @@ builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfi
 
 
 //builder.Services.AddScoped<MealPlansService>();
-//builder.Services.AddScoped<UsersService>();
-//builder.Services.AddScoped<BodyweightTrackersService>();
-//builder.Services.AddScoped<CalorieTrackerService>();
-//builder.Services.AddScoped<ExercisesService>();
-//builder.Services.AddScoped<MealsService>();
-//builder.Services.AddScoped<MealPlansService>();
-//builder.Services.AddScoped<ProgressTrackingsService>();
-//builder.Services.AddScoped<WaterIntakesService>();
-//builder.Services.AddScoped<WorkoutsService>();
-//builder.Services.AddScoped<WorkoutPlansService>();
-//builder.Services.AddScoped<WorkoutSchedulesService>();
 
 
-static void AddServices(IServiceCollection services, params Type[] types)
-{
-    foreach (var type in types)
-    {
-        services.AddScoped(type);
-    }
-}
+//static void AddServices(IServiceCollection services, params Type[] types)
+//{
+//    foreach (var type in types)
+//    {
+//        services.AddScoped(type);
+//    }
+//}
 
-AddServices(builder.Services,
-    typeof(MealPlansService),
-    typeof(UsersService),
-    typeof(BodyweightTrackersService),
-    typeof(CalorieTrackerService),
-    typeof(ExercisesService),
-    typeof(MealsService),
-    typeof(MealPlansService),
-    typeof(ProgressTrackingsService),
-    typeof(WaterIntakesService),
-    typeof(WorkoutsService),
-    typeof(WorkoutPlansService),
-    typeof(WorkoutSchedulesService));
+//AddServices(builder.Services,
+//    typeof(MealPlansService),
+//    typeof(UsersService),
+//    typeof(BodyweightTrackersService),
+//    typeof(CalorieTrackerService),
+//    typeof(ExercisesService),
+//    typeof(MealsService),
+//    typeof(MealPlansService),
+//    typeof(ProgressTrackingsService),
+//    typeof(WaterIntakesService),
+//    typeof(WorkoutsService),
+//    typeof(WorkoutPlansService),
+//    typeof(WorkoutSchedulesService));
+
+
+builder.Services.AddScoped<ServiceRepository>();
 
 
 

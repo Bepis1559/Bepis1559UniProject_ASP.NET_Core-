@@ -4,7 +4,7 @@ using UniProject.Models.Interfaces;
 
 namespace UniProject.Models.Classes
 {
-    public class Meal : ISetIdNameDesc
+    public class Meal :  IId, IName
     {
         [Key]
         public string Id { get; set; }

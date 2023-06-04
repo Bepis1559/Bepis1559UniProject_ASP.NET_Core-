@@ -3,7 +3,7 @@ using UniProject.Models.Interfaces;
 
 namespace UniProject.Models.Classes
 {
-    public class Exercise : ISetIdNameDesc
+    public class Exercise : IId, IName
     {
         [Key]
         public string Id { get; set; }

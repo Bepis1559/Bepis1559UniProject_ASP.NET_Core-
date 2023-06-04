@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using UniProject.Models.Interfaces;
 
 namespace UniProject.Models.Classes
 {
-    public class Workout
+    public class Workout : IId
     {
         [Key]
         public string Id { get; set; }

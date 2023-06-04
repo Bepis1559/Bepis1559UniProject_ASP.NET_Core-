@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using UniProject.Models.Interfaces;
 
 namespace UniProject.Models.Classes
 {
-    public class WorkoutSchedule
+    public class WorkoutSchedule : IId
     {
         [Key]
         public string Id { get; set; }

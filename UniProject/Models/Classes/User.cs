@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using UniProject.Models.Interfaces;
 
 namespace UniProject.Models.Classes
 {
-    public class User : IdentityUser
+    public class User : IdentityUser, IId
     {
         // Id , Email and Role are added by IdentityUser
         public string? FirstName { get; set; }
