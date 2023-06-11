@@ -47,7 +47,7 @@
                                 </div>
                                 <div class="mb-3">
                                 <label for="CalorieCount" class="form-label">@Html.DisplayNameFor(model => model.CalorieCount)</label>
-                                <input type="text" class="form-control mealInput" id="CalorieCount" aria-describedby="CalorieCountsHelp">
+                                <input type="number" class="form-control mealInput" id="CalorieCount" aria-describedby="CalorieCountsHelp">
                                 </div>
                                 
 
@@ -93,12 +93,27 @@
         const submitButton = getById('submitMealFormBtn')
         const intialOption = getById('intialOption')
         const robot = document.querySelector('.robot')
+        let currentCalories = 0
+        let maxCaloriesForThisPlan = 0
+
         const observer = new IntersectionObserver(entries =>{
             entries.forEach(entry =>{
                 entry.target.classList.remove('opacity-0')
                 entry.target.classList.remove('upTraslated')
             })
         })
+
+
+        // allow only for number in the calorie count input
+        CalorieCount.addEventListener('keypress',e =>{
+           
+            if (isNaN(e.key) || event.key.charCodeAt() === 32) {
+                e.preventDefault()
+                
+            }
+        })
+
+
         observer.observe(mealPageContainer)
         let MealPlanId
         let Meals
@@ -162,7 +177,24 @@
                 type: 'GET',
                 data: { name: MealPlanName },
                 success: function (result) {
-                 
+
+
+                    
+                    // account for macro nutrients and respective calories
+                    // get the values of the macros
+                    const macros = result.macroNutrients.split(",").map((el) => parseInt(el));
+
+                    // the macros are in the following order : protein , carbs, fats
+                    const caloriesInProtein = 4
+                    const caloriesInCarbs = 4
+                    const caloriesInFat = 9
+
+                     maxCaloriesForThisPlan = macros[0]*caloriesInProtein + macros[1]*caloriesInCarbs + macros[2]*caloriesInFat 
+
+                    console.log('maxCaloriesForThisPlan : ' + maxCaloriesForThisPlan)
+
+
+                    // get the meanPlan id
                     MealPlanId = result.id
 
 
@@ -174,8 +206,10 @@
                         success: function (data) {
 
                            
-                            //console.log(data)
+                          
 
+
+                            // table creation
                             const caption = document.createElement('caption')
                             caption.textContent = `Meals in ${selectedMealPlanName}:`
                             const mealsTable = createElement('table')
@@ -208,6 +242,9 @@
                                 const ingredients = createElAndAddTextContent('td', meal.ingredients)
                                 ingredients.setAttribute("data-thead", "Ingredients");
                                 const calorieCount = createElAndAddTextContent('td', meal.calorieCount)
+                                // add these calories to the currentCalories
+                                currentCalories += parseInt(calorieCount.innerText)
+                                console.log('currentCalories : ' + currentCalories)
                                 calorieCount.setAttribute("data-thead", "CalorieCount");
                                 const deleteButtonTd = document.createElement('td')
                                 const deleteButton = document.createElement('a')
@@ -230,7 +267,7 @@
                                                 type: 'DELETE',
                                                 data: { id: meal.id },
                                                 success: function (result) {
-                                                    swal('Meal plan deleted successfully!', {
+                                                    swal('Meal deleted successfully!', {
                                                         icon: 'success'
                                                     });
                                                 },
@@ -298,6 +335,7 @@
        
       
        
+        // handle submit
         // add a meal - post request
        
         
@@ -308,7 +346,13 @@
                 swal('You have to select a meal plan first !', {
                     icon: 'info'
                 })
-            } else{
+            } else if (currentCalories + parseInt(CalorieCount.value) > maxCaloriesForThisPlan || parseInt(CalorieCount.value) > maxCaloriesForThisPlan){
+                swal(`You are exceeding your max calories of ${maxCaloriesForThisPlan} for this meal plan ! You have ${maxCaloriesForThisPlan - currentCalories} left to work with.`, {
+                    icon: 'error'
+                })
+            }
+
+                else{
                 const meal = {
                     Name: Name.value,
                     Description: Description.value,
@@ -324,6 +368,7 @@
 
                     data: meal,
                     success: function (result) {
+                       
                         swal('Form submitted successfully!', {
                             icon: 'success'
                         })

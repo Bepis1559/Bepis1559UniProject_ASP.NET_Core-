@@ -24,6 +24,8 @@ namespace UniProject.Models.Classes
             Id = Guid.NewGuid().ToString();
         }
 
+        // relations
+
         [ForeignKey(nameof(User))]
 
         public string? UserId { get; set; }

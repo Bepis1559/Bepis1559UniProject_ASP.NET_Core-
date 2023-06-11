@@ -14,19 +14,49 @@
                 <form method="post">
                     <div class="mb-3">
                         <label for="Name" class="form-label">@Html.DisplayNameFor(model => model.Name)</label>
-                        <input data-purpose="holdName" type="text" class="form-control mealPlanInput" id="Name" aria-describedby="nameHelp">
+                        <input required data-purpose="holdName" type="text" class="form-control mealPlanInput" id="Name" aria-describedby="nameHelp">
                         <div id="nameHelp" class="form-text">Choose a name for your meal plan.</div>
                     </div>
                     <div class="mb-3">
                         <label for="Description" class="form-label">@Html.DisplayNameFor(model => model.Description)</label>
-                        <input data-purpose="holdDescription" type="text" class="form-control mealPlanInput" id="Description" aria-describedby="descriptionHelp">
-                        <div id="descriptionHelp" class="form-text">Write a short description , which will help you , if you forget what the meal plan was about</div>
+                        <input required data-purpose="holdDescription" type="text" class="form-control mealPlanInput" id="Description" aria-describedby="descriptionHelp">
+                        <div id="descriptionHelp" class="form-text">Write a short description about the meal plan.</div>
                     </div>
+
+
+
                     <div class="mb-3">
-                        <label for="MacroNutrients" class="form-label">@Html.DisplayNameFor(model => model.MacroNutrients)</label>
-                        <input data-purpose="holdMacros" type="text" class="form-control mealPlanInput" id="MacroNutrients" aria-describedby="macroNutrientsHelp">
-                        <div id="MacroNutrients" class="form-text">Enter the nutrients of your plan</div>
+                        <label for="protein" class="form-label">Protein : </label>
+                        <input min="0"  required data-purpose="holdProtein" type="number" class="form-control mealPlanInput nutrient" id="protein" aria-describedby="macroNutrientsHelp">
+                        <div class="form-text">Enter the amount of protein for this plan. </div>
                     </div>
+
+
+
+                    <div class="mb-3">
+                        <label for="carbs" class="form-label">Carbohydrates : </label>
+                        <input min="0" required data-purpose="holdCarbs" type="number" class="form-control mealPlanInput nutrient" id="carbs" aria-describedby="carbsHelp">
+                        <div  class="form-text">Enter the amount of carbohydrates for this plan.</div>
+                    </div>
+
+
+
+
+                    <div class="mb-3">
+                        <label for="fats" class="form-label">Fats : </label>
+                        <input min="0" required data-purpose="holdMacros" type="number" class="form-control mealPlanInput nutrient" id="fats" aria-describedby="fatsHelp">
+                        <div  class="form-text">Enter the nutrients of your plan</div>
+                    </div>
+
+
+
+
+
+
+
+
+
+
 
                     <button data-purpose="submit" type="submit" class="btn btn-primary submitBtn" data-bs-dismiss="modal">Submit</button>
                 </form>
@@ -45,7 +75,18 @@
     const submitButton = selectBasedOnData('button', 'submit')
     const nameInput = selectBasedOnData('input', 'holdName')
     const descriptionInput = selectBasedOnData('input', 'holdDescription')
-    const macroNutrientsInput = selectBasedOnData('input', 'holdMacros')
+    const nutrients = document.querySelectorAll('.nutrient')
+
+
+    // prevent user input , if not a number for nutrients
+    nutrients.forEach(nutrient => {
+        nutrient.addEventListener('keypress',(e) =>{
+            if (isNaN(parseInt(e.key)) || event.key.charCodeAt() === 32) {
+               e.preventDefault();
+            }
+        })
+    })
+
     // post Request
     submitButton.addEventListener('click', (e) => {
         e.preventDefault();
@@ -53,10 +94,11 @@
         const mealPlan = {
             name: nameInput.value,
             description: descriptionInput.value,
-            macroNutrients: macroNutrientsInput.value,
-
+            macroNutrients: `${nutrients[0].value}g ${nutrients[0].getAttribute('id')},
+            ${nutrients[1].value}g ${nutrients[1].getAttribute('id')}
+            ,${nutrients[2].value}g ${nutrients[2].getAttribute('id')}`   
         }
-        console.log(mealPlan)
+       
         $.ajax({
             url: '/MealPlan/AddMealPlan',
             type: 'POST',
