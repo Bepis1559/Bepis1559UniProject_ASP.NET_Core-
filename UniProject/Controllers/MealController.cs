@@ -57,6 +57,14 @@ namespace UniProject.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpDelete]
+
+        public async Task<IActionResult> DeleteMealById(string id)
+        {
+            await _serviceRepository.DeleteByIdAsync<Meal>(id);
+            return View("Index");
+        }
+
 
 
     }

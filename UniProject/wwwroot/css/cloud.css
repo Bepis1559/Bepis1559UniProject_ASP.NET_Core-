@@ -1,0 +1,63 @@
+﻿.cloud {
+    position: absolute;
+    cursor: pointer;
+    width: 150%;
+    top: -130%;
+    right: 50%;
+    aspect-ratio: 3/1;
+    background: #eceff1;
+    border-radius: 100vw;
+    box-shadow: var(--whiteElementsShadow);
+}
+
+    .cloud p {
+        position: relative;
+        padding: 5%;
+        font-weight: 600;
+        text-align: center;
+        z-index: 5;
+        font-size: 80%;
+        color: black;
+    }
+
+.bubles {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    height: 0.45em;
+    aspect-ratio: 1/1;
+
+}
+
+    .bubles:first-of-type {
+       
+        bottom: -50%;
+        right: 20%;
+    }
+
+    .bubles:nth-of-type(2) {
+        bottom: -30%;
+        right: 30%;
+    }
+
+.cloud:after,
+.cloud:before {
+    content: "";
+    --smallerBumpTop: -25%;
+    position: absolute;
+    aspect-ratio: 1/1;
+    background: inherit;
+    border-radius: inherit;
+}
+
+.cloud:after {
+    top: var(--smallerBumpTop);
+    left: 15%;
+    width: 30%;
+}
+
+.cloud:before {
+    top: calc(var(--smallerBumpTop) * 2);
+    left: 40%;
+    width: 40%;
+}

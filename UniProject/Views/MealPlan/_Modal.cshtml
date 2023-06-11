@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<UniProject.Models.Classes.MealPlan>
-<button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#addMealPlan">
+<button type="button"  data-bs-toggle="modal" data-bs-target="#addMealPlan">
     Add a meal plan
 </button>
 <!-- Modal -->
@@ -14,17 +14,17 @@
                 <form method="post">
                     <div class="mb-3">
                         <label for="Name" class="form-label">@Html.DisplayNameFor(model => model.Name)</label>
-                        <input data-purpose="holdName" type="text" class="form-control" id="Name" aria-describedby="nameHelp">
+                        <input data-purpose="holdName" type="text" class="form-control mealPlanInput" id="Name" aria-describedby="nameHelp">
                         <div id="nameHelp" class="form-text">Choose a name for your meal plan.</div>
                     </div>
                     <div class="mb-3">
                         <label for="Description" class="form-label">@Html.DisplayNameFor(model => model.Description)</label>
-                        <input data-purpose="holdDescription" type="text" class="form-control" id="Description" aria-describedby="descriptionHelp">
+                        <input data-purpose="holdDescription" type="text" class="form-control mealPlanInput" id="Description" aria-describedby="descriptionHelp">
                         <div id="descriptionHelp" class="form-text">Write a short description , which will help you , if you forget what the meal plan was about</div>
                     </div>
                     <div class="mb-3">
                         <label for="MacroNutrients" class="form-label">@Html.DisplayNameFor(model => model.MacroNutrients)</label>
-                        <input data-purpose="holdMacros" type="text" class="form-control" id="MacroNutrients" aria-describedby="macroNutrientsHelp">
+                        <input data-purpose="holdMacros" type="text" class="form-control mealPlanInput" id="MacroNutrients" aria-describedby="macroNutrientsHelp">
                         <div id="MacroNutrients" class="form-text">Enter the nutrients of your plan</div>
                     </div>
 

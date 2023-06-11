@@ -1,0 +1,109 @@
+﻿/*meal Page*/
+
+
+#mealPageContainer {
+    border-radius: var(--overallBorderRadius);
+    background: var(--pageContainerBg);
+    width: min(80%,1000px);
+    padding: 1em;
+    position: relative;
+    box-shadow: -0.6em 0.3em 0em 0.1em rgba(34, 34, 34, 0.5), inset 0em 0em 0.5em 0.1em black;
+}
+
+
+
+.fadeOut {
+    position: absolute;
+    width: calc(100% - 1em );
+    animation: fadeOut 2s forwards;
+}
+
+
+.fadeIn {
+    animation: fadeIn 2s forwards;
+}
+
+@keyframes fadeOut {
+
+    100% {
+        translate: -100vw;
+        opacity: 0;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        translate: 0 100vh;
+        /*opacity: 0;*/
+    }
+
+    100% {
+        translate: 0;
+        opacity: 1;
+    }
+}
+
+.individualMealPlanSection {
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    color: white;
+    border-radius: 10px;
+    padding: 1em;
+    /*background: #333;*/
+}
+
+.mealAddBtnContainer {
+    display: flex;
+    gap : .5em;
+    justify-content: space-between;
+    padding-block-end: .5em;
+}
+
+    .mealAddBtnContainer label {
+        margin: 0;
+        display: flex;
+        align-items: center;
+    }
+
+
+    @media(width < 55em){
+        #mealPageContainer {
+            padding-inline: 0em;
+        }
+            #mealPageContainer .mealAddBtnContainer{
+                padding : 1em;
+            }
+            #mealPageContainer select {
+                margin-inline: auto;
+                width: 90%;
+            }
+            #mealPageContainer th {
+                display: none;
+            }
+        #mealPageContainer tr {
+           border-block: 1px solid;
+        }
+
+            #mealPageContainer td {
+                display: flex;
+                justify-content: center;
+                border: none;
+                padding: .5em;
+                flex-wrap: wrap;
+            }
+            #mealPageContainer tr td:nth-child(n):not(:nth-child(5)):before {
+                content: attr(data-thead) ":";
+                font-weight: 600;
+                padding-inline-end: 1em;
+                text-decoration: underline solid 1px;
+            }
+            #mealPageContainer tr td a {
+                margin-inline: auto;
+            }
+            #mealPageContainer .mealAddBtnContainer {
+                padding-block: .5em;
+                justify-content: space-around;
+                align-items: center;
+            }
+    }

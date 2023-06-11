@@ -1,10 +1,11 @@
-﻿@model UniProject.Models.Classes.Meal
+﻿<link rel="stylesheet" href="~/css/meal.css" asp-append-version="true" />
+@model UniProject.Models.Classes.Meal
 
 @{
     ViewData["Title"] = "View";
 }
 
-
+<partial name="_robot.cshtml" />
 <div class="container upTraslated opacity-0" id="mealPageContainer" >
    
     <h1 class = "text-center">Meals</h1>
@@ -15,7 +16,7 @@
         <div class="mealAddBtnContainer">
             <label for="mealPlanSelect">Select Meal Plan:</label>
             <!-- Button trigger modal -->
-            <button id="addMealButton" type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <button id="addMealButton" type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Add a meal 
             </button>
         </div>
@@ -34,19 +35,19 @@
                             <form method="post">
                                 <div class="mb-3">
                                     <label for="Name" class="form-label">@Html.DisplayNameFor(model => model.Name)</label>
-                                    <input  type="text" class="form-control" id="Name" aria-describedby="nameHelp">
+                                    <input type="text" class="form-control mealInput" id="Name" aria-describedby="nameHelp">
                                 </div>
                                 <div class="mb-3">
                                     <label for="Description" class="form-label">@Html.DisplayNameFor(model => model.Description)</label>
-                                    <input  type="text" class="form-control" id="Description" aria-describedby="descriptionHelp">
+                                <input type="text" class="form-control mealInput" id="Description" aria-describedby="descriptionHelp">
                                 </div>
                                 <div class="mb-3">
                                 <label for="Ingredients" class="form-label">@Html.DisplayNameFor(model => model.Ingredients)</label>
-                                <input type="text" class="form-control" id="Ingredients" aria-describedby="IngredientsHelp">
+                                <input type="text" class="form-control mealInput" id="Ingredients" aria-describedby="IngredientsHelp">
                                 </div>
                                 <div class="mb-3">
                                 <label for="CalorieCount" class="form-label">@Html.DisplayNameFor(model => model.CalorieCount)</label>
-                                <input type="text" class="form-control" id="CalorieCount" aria-describedby="CalorieCountsHelp">
+                                <input type="text" class="form-control mealInput" id="CalorieCount" aria-describedby="CalorieCountsHelp">
                                 </div>
                                 
 
@@ -91,6 +92,7 @@
         const CalorieCount = getById('CalorieCount')
         const submitButton = getById('submitMealFormBtn')
         const intialOption = getById('intialOption')
+        const robot = document.querySelector('.robot')
         const observer = new IntersectionObserver(entries =>{
             entries.forEach(entry =>{
                 entry.target.classList.remove('opacity-0')
@@ -105,6 +107,17 @@
         
         // Add a change event listener to the mealPlanSelect element
         mealPlanSelect.addEventListener('change', () => {
+
+            // handle robot popup
+            robot.classList.add('showRobot')
+            if (robot.classList.contains('showRobot')){
+                setTimeout(() =>{
+                    robot.classList.remove('showRobot')
+                },10000)
+            }
+
+            // remove the initial empty option from the select
+
             if (mealPlanSelect.contains(intialOption)) {
                 mealPlanSelect.removeChild(intialOption)
             }
@@ -120,7 +133,6 @@
                     }
                 },2000)
             });
-
             // Get the selected MealPlan name
             let selectedMealPlanName = mealPlanSelect.options[mealPlanSelect.selectedIndex].text;
 
@@ -176,22 +188,70 @@
                             const descriptionTH = createElAndAddTextContent('th', 'Description')
                             const ingredientsTH = createElAndAddTextContent('th', 'Ingredients')
                             const calorieCountTH = createElAndAddTextContent('th', 'CalorieCount')
+                            const deleteTH = document.createElement('th')
+                            deleteTH.setAttribute('aria-hidden','true');
 
-                            appendChildren(tableHead, nameTH, descriptionTH, ingredientsTH, calorieCountTH,)
+                            appendChildren(tableHead, nameTH, descriptionTH, ingredientsTH, calorieCountTH,deleteTH)
 
                             
 
                            const tableBody = createElement('tbody')
                         
                             data.forEach(meal =>{
+                               
                                 const tableRow = createElement('tr')
+                               
                                 const name = createElAndAddTextContent('td',meal.name)
+                                name.setAttribute("data-thead","Name");
                                 const description = createElAndAddTextContent('td', meal.description)
+                                description.setAttribute("data-thead", "Description");
                                 const ingredients = createElAndAddTextContent('td', meal.ingredients)
+                                ingredients.setAttribute("data-thead", "Ingredients");
                                 const calorieCount = createElAndAddTextContent('td', meal.calorieCount)
+                                calorieCount.setAttribute("data-thead", "CalorieCount");
+                                const deleteButtonTd = document.createElement('td')
+                                const deleteButton = document.createElement('a')
+                                deleteButton.classList.add('btn','btn-danger')
+                                deleteButton.setAttribute('tabindex','0')
+
+                                //delete button functionality
+
+                                deleteButton.addEventListener('click',() =>{
+                                    const URL = '/Meal/DeleteMealById'
+                                    swal({
+                                        title: 'Are you sure you want to delete that?',
+                                        icon: 'warning',
+                                        buttons: true,
+                                        dangerMode: true
+                                    }).then((willDelete) => {
+                                        if (willDelete) {
+                                            $.ajax({
+                                                url: URL,
+                                                type: 'DELETE',
+                                                data: { id: meal.id },
+                                                success: function (result) {
+                                                    swal('Meal plan deleted successfully!', {
+                                                        icon: 'success'
+                                                    });
+                                                },
+                                                error: function (xhr, status, error) {
+                                                    swal(error, {
+                                                        icon: 'warning'
+                                                    });
+                                                }
+                                            });
+                                        }
+                                    });
+                                })
+
+                                const trashIcon = document.createElement('i')
+                                trashIcon.classList.add('bi','bi-trash')
+                                deleteButton.appendChild(trashIcon)
+                                deleteButtonTd.appendChild(deleteButton)
+
                                
 
-                                appendChildren(tableRow,name,description,ingredients,calorieCount)
+                                appendChildren(tableRow, name, description, ingredients, calorieCount, deleteButtonTd)
                                 tableBody.appendChild(tableRow)
 
                             })

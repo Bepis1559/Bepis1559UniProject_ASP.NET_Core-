@@ -1,9 +1,9 @@
 /*resets*/
 
 :root {
-    --pageContainerBg : #333;
+    --pageContainerBg: #1c1c1c;
     --overallBackground: #171717;
-    --overallBorderRadius : 15px;
+    --overallBorderRadius: 15px;
     --opacityTransition: 2s;
     --translateTranstion: 2s;
 }
@@ -37,8 +37,9 @@ select {
 }
 
 body {
+    overflow-x : hidden;
     color: white;
-   
+    /*font-size: clamp(1rem, 1rem + 0.35vw, 1rem + 0.55vw);*/
     font-family: Arial, Helvetica, sans-serif;
     min-height: 100vh;
 }
@@ -52,7 +53,7 @@ html {
 #nav, body  {
     background-color: var(--overallBackground) !important;
 }
-    
+
 
 
 
@@ -64,12 +65,13 @@ html {
     }
 }
 
-input,select {
-    border-radius : 15px !important;
-    border : none !important;
-    color : white !important;
+select#mealPlanSelect, input.mealInput, input.mealPlanInput {
+    border-radius: 15px !important;
+    border: none !important;
+    color: white !important;
     background: var(--overallBackground) !important;
 }
+
 
 caption{
     font-weight : bold;
@@ -84,6 +86,9 @@ table{
 button{
     border-radius : 15px !important;
 }
+
+
+
     /* =============================== */
 
 
@@ -93,10 +98,29 @@ button{
     border-radius: var(--overallBorderRadius);
 }
 
+/*open modal buttons*/
+
+button[data-bs-toggle="modal"] {
+    background: rgb(27, 27, 27);
+    cursor: pointer;
+    padding: 0.3em 0.6em;
+    outline: none;
+    border: 1px solid #333;
+    box-shadow: 
+    inset 0em 0em 0.5em 0.1em black;
+    border-radius: 0.5em;
+    transition: border-color 0.25s;
+}
+button[data-bs-toggle="modal"]:is(:hover, :focus-visible)
+{
+ border-color: #646cff;
+}
 
 
 
-    /*navigation */
+   
+
+/*navigation */
 
 
 
@@ -110,7 +134,7 @@ button{
     transition: outline-color 0.25s;
 }
     .nav-item:hover {
-        outline-color: #0B5ED7;
+        outline-color: #646cff;
     }
 
 
@@ -136,101 +160,5 @@ button{
     translate: 0 -100vh;
 }
 
-/*MealPlan page*/
-#mealPlanPageContainer #addMealButton {
-    margin-block-end: 3.5em;
-}
-
-#mealPlanPageContainer {
-    
-    background : var(--pageContainerBg);
-    border-radius : var(--overallBorderRadius);
-    text-align: center;
-    padding: 2em;
-    
-}
 
 
-
-    #mealPlanPageContainer * {
-        color: white;
-    }
-#mealPlansDefaultParagraph {
-    font-size: clamp(1rem + .4vw, 1rem + .8vw, 1rem + 1.2vw);
-}
-
-#mealPlanPageContainer #mealPlanAddBtnContainer  {
-    display : flex;
-    justify-content : flex-end;
-    padding-block-end : 1em;
-    
-}
-
-  
-
-
-
-/*meal Page*/
-
-
-#mealPageContainer {
-    border-radius: var(--overallBorderRadius);
-    background: #424242;
-    width: min(80%,1000px);
-    padding: 1em;
-    position: relative;
-}
-
-    
-
-    .fadeOut {
-        position: absolute;
-        width: calc(100% - 1em );
-        animation: fadeOut 2s forwards;
-    }
-
-
-.fadeIn {
-    animation: fadeIn 2s forwards;
-}
-
-@keyframes fadeOut{
-
-    100% {
-        translate: -100vw;
-        opacity: 0;
-    }
-}
-@keyframes fadeIn{
-    0%{
-        translate : 0 100vh;
-        /*opacity: 0;*/
-    }
-    100% {
-        translate: 0 ;
-        opacity: 1;
-    }
-}
-.individualMealPlanSection {
-    justify-content : space-between;
-    align-items : center;
-    display : flex;
-    color: white;
-    border-radius: 10px;
-    padding: 1em;
-    background: #333;
-}
-
-.mealAddBtnContainer {
-    justify-content: space-between;
-    
-    padding-block-end: .5em;
-    display: flex;
-    
-}
-.mealAddBtnContainer label{
-    margin : 0;
-    display : flex;
-    align-items : center;
-    
-}

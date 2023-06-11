@@ -1,0 +1,65 @@
+﻿/*MealPlan page*/
+/*#mealPlanPageContainer #addMealButton {
+    margin-block-end: 3.5em;
+}*/
+
+#mealPlanPageContainer {
+
+    background: var(--pageContainerBg);
+    border-radius: var(--overallBorderRadius);
+    text-align: center;
+    padding: 2em;
+    box-shadow: -0.6em 0.3em 0em 0.1em rgba(34, 34, 34, 0.5), inset 0em 0em 0.5em 0.1em black;
+}
+
+
+
+ #mealPlanPageContainer * {
+        color: white;
+ }
+
+#mealPlansDefaultParagraph {
+    font-size: clamp(1rem + .4vw, 1rem + .8vw, 1rem + 1.2vw);
+}
+
+#mealPlanPageContainer #mealPlanAddBtnContainer {
+    display: flex;
+    justify-content: flex-end;
+    padding-block-end: 1em;
+}
+@media(width < 29em) {
+
+    #mealPlanPageContainer{
+        padding-inline : .5em;
+    }
+        #mealPlanPageContainer tr{
+            border-block : 1px solid;
+        }
+        #mealPlanPageContainer td {
+            display: flex;
+            justify-content: center;
+            border: none;
+            padding: .5em;
+            flex-wrap: wrap;
+        }
+    #mealPlanPageContainer th{
+        display : none;
+    }
+    #mealPlanPageContainer tr td:nth-child(n):not(:nth-child(4)):before {
+        content: attr(data-thead) ":";
+        font-weight: 600;
+        padding-inline-end: 1em;
+        text-decoration: underline solid 1px;
+    }
+    #mealPlanPageContainer tr td a{
+       
+        margin-inline : auto;
+        
+    }
+
+    #mealPlanPageContainer #mealPlanAddBtnContainer {
+        padding-block: .5em;
+        justify-content: center;
+        align-items: center;
+    }
+}

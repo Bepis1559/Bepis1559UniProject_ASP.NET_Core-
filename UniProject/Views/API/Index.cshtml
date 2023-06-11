@@ -1,0 +1,475 @@
+﻿<link rel="stylesheet" href="~/css/api.css" asp-append-version="true" />
+<body>
+    <main class="myMainContainer">
+        <header>
+            <h1>Choose a food to get information about :</h1>
+        </header>
+        <section class="startingSection">
+           
+            <form aria-label="Choose food form" action="" class="getItemForm">
+                <label id="chooseFoodLabel" for="chooseFood">
+                    Choose food here :
+                </label>
+                <input required id="chooseFood" name="chooseFood" type="text" />
+                <button id="submitButton" type="submit">Let's go !</button>
+            </form>
+        </section>
+        <section class="statsSection">
+            <header><h2>Stats :</h2></header>
+            <ul>
+                <li class="foodParameter">
+                    Chosen food : <span class="chosenFood"></span>
+                </li>
+                <li class="foodParameter">
+                    Quantity : <span class="quantity"></span>
+                </li>
+                <li class="foodParameter">
+                    Weight (g) : <span class="weight"></span>
+                </li>
+                <li class="foodParameter">
+                    <a href="#caloriesHeader">
+                        Calories : <span class="calories"></span>
+                    </a>
+                </li>
+                <li class="foodParameter">
+                    <a href="#fatsHeader">Total fat</a> : <span class="totalFat"></span>
+                </li>
+                <li class="foodParameter">
+                    <a href="#saturatesFatsHeader">Saturated fat</a> :
+                    <span class="saturatedFat"></span>
+                </li>
+                <li class="foodParameter">
+                    <a href="#cholesterolHeader">Cholesterol</a> :
+                    <span class="cholesterol"></span>
+                </li>
+                <li class="foodParameter">
+                    <a href="#sodiumHeader">Sodium</a> : <span class="sodium"></span>
+                </li>
+                <li class="foodParameter">
+                    <a href="#carbohydrateHeader">Total carbohydrate</a> :
+                    <span class="totalCarbohydrate"></span>
+                </li>
+                <li class="foodParameter">
+                    <a href="#dietaryFiberHeader">Dietary fiber</a> :
+                    <span class="dietaryFiber"></span>
+                </li>
+                <li class="foodParameter">
+                    <a href="#sugarsHeader">Sugars</a> : <span class="sugars"></span>
+                </li>
+                <li class="foodParameter">
+                    <a href="#proteinHeader">Protein</a> : <span class="protein"></span>
+                </li>
+                <li class="foodParameter">
+                    <a href="#potassiumHeader">Potassium</a> :
+                    <span class="potassium"></span>
+                </li>
+                <li class="foodParameter">
+                    <a href="#phosphorusHeader">Phosphorus</a> :
+                    <span class="phosphorus"></span>
+                </li>
+            </ul>
+        </section>
+        <section class="learnMore">
+            <header><h3>Learn more about these stats</h3></header>
+            <header id="caloriesHeader"><h4>Calories</h4></header>
+            <article>
+                <p class="left-translated">
+                    Calories are units of energy that a food or drink provides1. Your
+                    body uses the energy from calories to survive and move throughout
+                    the day2. The amount of calories you eat and burn in a day
+                    influences how much you weigh2. Calories are provided by fat,
+                    protein, and carbohydrates, which are known as macronutrients2. The
+                    number of calories you need per day depends on various factors such
+                    as your age, sex, height, weight, and activity level. You can use a
+                    calorie calculator to estimate the number of daily calories your
+                    body needs to maintain your current weight3. It’s important to pay
+                    attention to the number of calories in the food you eat. You can use
+                    a calorie database to understand how your body gets energy out of
+                    your favorite meals and snacks and make dietary choices that never
+                    leave you with guilt for.
+                </p>
+                <img class="right-translated"
+                     loading="lazy"
+                     src="./assets/api/calories.jpg"
+                     alt="calories" />
+            </article>
+            <header id="fatsHeader"><h4>Fats</h4></header>
+            <article>
+                <p class="left-translated">
+                    Fat is a nutrient that provides energy and helps the body absorb
+                    certain vitamins. It is an essential part of a healthy diet. Fat is
+                    concentrated in calories and provides more than double the amount of
+                    energy per gram compared to carbohydrates or protein. There are
+                    different types of fat, including saturated fat, unsaturated fat,
+                    and trans fat. Consuming too much saturated and trans fat can
+                    increase the risk of heart disease. It's important to choose
+                    healthier fats, such as monounsaturated and polyunsaturated fats,
+                    found in foods like avocados, nuts, and fatty fish. Balancing your
+                    fat intake is crucial for maintaining a healthy diet and overall
+                    well-being.
+                </p>
+                <img class="right-translated"
+                     loading="lazy"
+                     src="./assets/api/fats.jpeg"
+                     alt="fats" />
+            </article>
+            <header id="saturatesFatsHeader"><h4>Saturated Fats</h4></header>
+            <article>
+                <p class="left-translated">
+                    Saturated fat is a type of fat found in various foods, including
+                    animal products such as meat and dairy, as well as some plant-based
+                    oils like coconut and palm oil. Consuming high amounts of saturated
+                    fat can raise cholesterol levels and increase the risk of heart
+                    disease. It's important to limit your intake of saturated fat and
+                    opt for healthier fats, such as unsaturated fats found in foods like
+                    olive oil, nuts, and seeds. A balanced diet with moderate
+                    consumption of saturated fat can help maintain a healthy
+                    cardiovascular system.
+                </p>
+                <img class="right-translated"
+                     loading="lazy"
+                     src="./assets/api/saturated-fat.jpg"
+                     alt="saturated fat" />
+            </article>
+            <header id="cholesterolHeader"><h4>Cholesterol</h4></header>
+            <article>
+                <p class="left-translated">
+                    Cholesterol is a waxy substance found in your body and certain
+                    foods. It plays a vital role in the production of hormones, vitamin
+                    D, and digestive substances. However, having high levels of
+                    cholesterol in your blood can increase the risk of heart disease.
+                    There are two types of cholesterol: low-density lipoprotein (LDL)
+                    and high-density lipoprotein (HDL). LDL cholesterol is often
+                    referred to as "bad" cholesterol because it can build up in the
+                    arteries and lead to blockages, while HDL cholesterol is considered
+                    "good" cholesterol as it helps remove LDL cholesterol from the
+                    bloodstream. To maintain healthy cholesterol levels, it's important
+                    to consume a balanced diet low in saturated and trans fats and
+                    engage in regular physical activity.
+                </p>
+                <img class="right-translated"
+                     loading="lazy"
+                     src="./assets//api/cholesterol.jpg"
+                     alt="cholesterol" />
+            </article>
+            <header id="sodiumHeader"><h4>Sodium</h4></header>
+            <article>
+                <p class="left-translated">
+                    Sodium, commonly known as salt, is a mineral that is essential for
+                    maintaining fluid balance, transmitting nerve impulses, and
+                    contracting muscles. However, consuming too much sodium can increase
+                    blood pressure and contribute to the development of heart disease.
+                    It's important to limit sodium intake by reducing the consumption of
+                    processed and packaged foods, which often contain high amounts of
+                    added salt. Choosing fresh, whole foods and using herbs and spices
+                    to flavor meals instead of salt can help maintain a healthy sodium
+                    balance in the body.
+                </p>
+                <img class="right-translated"
+                     loading="lazy"
+                     src="./assets/api/sodium.jpg"
+                     alt="sodium" />
+            </article>
+            <header id="carbohydrateHeader"><h4>Carbohydrate</h4></header>
+            <article>
+                <p class="left-translated">
+                    Carbohydrates are one of the three main macronutrients and are a
+                    primary source of energy for the body. They are found in foods such
+                    as grains, fruits, vegetables, and legumes. Carbohydrates can be
+                    divided into two categories: simple carbohydrates (sugars) and
+                    complex carbohydrates (starches and fibers). While carbohydrates are
+                    an important part of a balanced diet, it's essential to choose
+                    complex carbohydrates that provide more nutrients and fiber, rather
+                    than consuming excessive amounts of simple sugars. Balancing
+                    carbohydrate intake with other macronutrients and considering the
+                    quality of carbohydrates can help maintain stable blood sugar levels
+                    and overall health.
+                </p>
+                <img class="right-translated"
+                     loading="lazy"
+                     src="./assets/api/carbohydrate.jpg"
+                     alt="carbohydrate" />
+            </article>
+            <header id="dietaryFiberHeader"><h4>Dietary Fiber</h4></header>
+            <article>
+                <p class="left-translated">
+                    Dietary fiber is a type of carbohydrate that the body cannot digest.
+                    It is found in plant-based foods such as fruits, vegetables, whole
+                    grains, legumes, nuts, and seeds. Fiber provides numerous health
+                    benefits, including promoting healthy digestion, regulating blood
+                    sugar levels, and helping maintain a healthy weight. Consuming an
+                    adequate amount of dietary fiber is important for overall
+                    well-being. It is recommended to include a variety of fiber-rich
+                    foods in your diet to ensure you meet the daily recommended intake.
+                </p>
+                <img class="right-translated"
+                     loading="lazy"
+                     src="./assets/api/fiber.jpg"
+                     alt="dietary fiber" />
+            </article>
+            <header id="sugarsHeader"><h4>Sugars</h4></header>
+            <article>
+                <p class="left-translated">
+                    Sugars are a type of simple carbohydrate that provide a quick source
+                    of energy for the body. They can be naturally occurring, such as
+                    those found in fruits and dairy products, or added to foods and
+                    beverages during processing or preparation. Common sources of added
+                    sugars include sodas, candy, baked goods, and sugary cereals. While
+                    sugars can be enjoyed in moderation as part of a balanced diet,
+                    excessive consumption of added sugars can have negative health
+                    effects. When consumed in excess, added sugars can contribute to
+                    weight gain, tooth decay, and an increased risk of chronic
+                    conditions such as type 2 diabetes and heart disease. This is
+                    because high sugar intake can lead to spikes in blood sugar levels
+                    and promote inflammation in the body.
+                </p>
+                <img class="right-translated"
+                     loading="lazy"
+                     src="./assets/api/sugars.jpg"
+                     alt="sugars" />
+            </article>
+
+            <header id="proteinHeader"><h4>Protein</h4></header>
+            <article>
+                <p class="left-translated">
+                    Protein is an essential macronutrient that plays a crucial role in
+                    the growth, repair, and maintenance of tissues in the body. It is
+                    made up of amino acids, which are the building blocks of protein.
+                    Proteins are found in a variety of animal and plant-based foods,
+                    such as meat, poultry, fish, eggs, dairy products, legumes, nuts,
+                    and seeds. Consuming an adequate amount of protein is important for
+                    overall health and well-being. Protein helps support muscle growth,
+                    boosts immune function, and provides a feeling of satiety. It is
+                    recommended to include a variety of protein sources in your diet to
+                    ensure you meet your daily protein needs.
+                </p>
+                <img class="right-translated"
+                     loading="lazy"
+                     src="./assets/api/protein.jpg"
+                     alt="protein" />
+            </article>
+            <header id="potassiumHeader"><h4>Potassium</h4></header>
+            <article>
+                <p class="left-translated">
+                    Potassium is a mineral and electrolyte that is essential for various
+                    bodily functions. It helps maintain proper fluid balance, supports
+                    nerve function, and plays a role in muscle contractions, including
+                    the beating of the heart. Potassium is found in a wide range of
+                    foods, including fruits (especially bananas and oranges),
+                    vegetables, legumes, dairy products, and fish. Adequate potassium
+                    intake is important for maintaining healthy blood pressure levels,
+                    as it helps counteract the effects of sodium. Including
+                    potassium-rich foods in your diet can help promote cardiovascular
+                    health and overall well-being.
+                </p>
+                <img class="right-translated"
+                     loading="lazy"
+                     src="./assets/api/potassium.jpg"
+                     alt="potassium" />
+            </article>
+            <header id="phosphorusHeader"><h4>Phosphorus</h4></header>
+            <article>
+                <p class="left-translated">
+                    Phosphorus is a mineral that plays a vital role in numerous
+                    biological processes in the body. It is involved in bone and teeth
+                    formation, energy production, cell growth and repair, and acid-base
+                    balance. Phosphorus is found in a variety of foods, including dairy
+                    products, meat, poultry, fish, legumes, nuts, and whole grains.
+                    Maintaining adequate phosphorus levels is important for bone health,
+                    proper kidney function, and overall cellular health. However, it is
+                    essential to maintain a balance, as excessive phosphorus intake,
+                    often from processed foods and soft drinks, can have negative health
+                    effects. It is recommended to consume a balanced diet that includes
+                    phosphorus-rich foods to meet your body's needs.
+                </p>
+                <img class="right-translated"
+                     loading="lazy"
+                     src="./assets/api/phosphorus.png"
+                     alt="phosphorus" />
+            </article>
+        </section>
+    </main>
+</body>
+
+
+
+
+<script defer>
+    const appId = "64a64597";
+    const appKey = "dad48a1faae75d014c37209022287860";
+    const chosenFood = document.querySelector(`.chosenFood`);
+    const quantity = document.querySelector(`.quantity`);
+    const weight = document.querySelector(`.weight`);
+    const calories = document.querySelector(`.calories`);
+    const totalFat = document.querySelector(`.totalFat`);
+    const saturatedFat = document.querySelector(`.saturatedFat`);
+    const totalCarbohydrate = document.querySelector(`.totalCarbohydrate`);
+    const cholesterol = document.querySelector(`.cholesterol`);
+    const sodium = document.querySelector(`.sodium`);
+    const dietaryFiber = document.querySelector(`.dietaryFiber`);
+    const sugars = document.querySelector(`.sugars`);
+    const protein = document.querySelector(`.protein`);
+    const potassium = document.querySelector(`.potassium`);
+    const phosphorus = document.querySelector(`.phosphorus`);
+    const foodName = document.getElementById(`chooseFood`);
+    const chooseFoodLabel = document.getElementById(`chooseFoodLabel`);
+    const submitButton = document.getElementById(`submitButton`);
+    const articles = document.querySelectorAll(`article`);
+    const cache = [];
+    let invalidInputCount = 0;
+
+    const inputsArray = [
+        chosenFood,
+        quantity,
+        weight,
+        calories,
+        totalFat,
+        saturatedFat,
+        cholesterol,
+        sodium,
+        totalCarbohydrate,
+        dietaryFiber,
+        sugars,
+        protein,
+        potassium,
+        phosphorus,
+    ];
+
+    document.addEventListener("DOMContentLoaded", () => {
+        //  handle IntersectionObserver
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    Array.from(entry.target.children).forEach((child) => {
+                        child.classList.remove("right-translated", "left-translated");
+                    });
+                }
+            });
+        }, {});
+        articles.forEach((article) => observer.observe(article));
+
+        // call API
+        submitButton.addEventListener("click", (e) => {
+            e.preventDefault();
+            let isPresentInCache = false;
+            // check if present in cache
+
+            if (localStorage.getItem("cache") !== null) {
+                JSON.parse(localStorage.getItem("cache")).forEach((el) => {
+                    const key = Object.keys(el)[0];
+                    const value = el[key];
+                    if (foodName.value == key) {
+                        isPresentInCache = true;
+                        for (let i = 0; i < inputsArray.length; i++) {
+                            setInnerText(inputsArray[i], value[i]);
+                        }
+                    }
+                });
+            }
+            if (!isPresentInCache) {
+                getNutrients(foodName.value.toLowerCase().trim());
+            }
+        });
+    });
+
+    async function getNutrients(nameOfChosenFood) {
+        const URL = `https://trackapi.nutritionix.com/v2/natural/nutrients`;
+        const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "x-app-id": appId,
+                "x-app-key": appKey,
+            },
+            body: JSON.stringify({ query: nameOfChosenFood }),
+        };
+        try {
+            const response = await fetch(URL, options);
+            const data = await response.json();
+            const {
+                food_name,
+                serving_qty,
+                serving_weight_grams,
+                nf_calories,
+                nf_total_fat,
+                nf_saturated_fat,
+                nf_cholesterol,
+                nf_sodium,
+                nf_total_carbohydrate,
+                nf_dietary_fiber,
+                nf_sugars,
+                nf_protein,
+                nf_potassium,
+                nf_p,
+            } = data.foods[0];
+            const dataArray = [
+                food_name,
+                serving_qty,
+                serving_weight_grams,
+                nf_calories,
+                nf_total_fat,
+                nf_saturated_fat,
+                nf_cholesterol,
+                nf_sodium,
+                nf_total_carbohydrate,
+                nf_dietary_fiber,
+                nf_sugars,
+                nf_protein,
+                nf_potassium,
+                nf_p,
+            ];
+            if (inputsArray.length != dataArray.length) {
+                console.log(
+                    `Length of inputsArray ${inputsArray.length} is not the same as dataArray length ${dataArray.length}  `,
+                );
+                return;
+            } else {
+                cache.push({ [food_name]: dataArray });
+                localStorage.setItem("cache", JSON.stringify(cache));
+
+                for (let i = 0; i < inputsArray.length; i++) {
+                    setInnerText(inputsArray[i], dataArray[i]);
+                }
+            }
+        } catch (error) {
+            foodName.value = "Please choose a valid food name !";
+            invalidInputCount++;
+            console.log(error);
+            if (invalidInputCount >= 3) {
+                foodName.setAttribute("disabled", true);
+                submitButton.setAttribute("disabled", true);
+                chooseFoodLabel.innerText =
+                    "You will have to wait 5 minutes for not selecting a valid food name !";
+                setTimeout(() => {
+                    foodName.setAttribute("disabled", false);
+                    submitButton.setAttribute("disabled", false);
+                    chooseFoodLabel.value = "Choose food here :";
+                }, 5000 * 60);
+            }
+        } finally {
+            console.log("API was called");
+            // console.log(cache);
+        }
+    }
+    function setInnerText(el, text = "N/A") {
+        el.innerText = text;
+        if (text == null) {
+            el.innerText = "N/A";
+        }
+    }
+    //   serving_qty: 1,
+    //   serving_weight_grams: 118,
+    //   nf_calories: 105.02,
+    //   nf_total_fat: 0.39,
+    //   nf_saturated_fat: 0.13,
+    //   nf_cholesterol: 0,
+    //   nf_sodium: 1.18,
+    //   nf_total_carbohydrate: 26.95,
+    //   nf_dietary_fiber: 3.07,
+    //   nf_sugars: 14.43,
+    //   nf_protein: 1.29,
+    //   nf_potassium: 422.44,
+    //   nf_p: 25.96,
+
+</script>

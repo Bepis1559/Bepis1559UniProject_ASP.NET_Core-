@@ -1,0 +1,33 @@
+﻿<link rel="stylesheet" href="~/css/robot.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/cloud.css" asp-append-version="true" />
+<div class="robot">
+    <div class="head centeredFlex">
+        <a asp-controller="API" asp-action="Index">
+            <div id="cloud" class="cloud">
+                <p>See nutrients and macros</p>
+                <div class="bubles"></div>
+                <div class="bubles"></div>
+            </div>
+        </a>
+        
+        <div class="face centeredFlex">
+            <div class="eye"></div>
+            <div class="eye"></div>
+            <div class="smile"></div>
+        </div>
+    </div>
+    <div class="body">
+        <div class="leg"></div>
+        <div class="leg"></div>
+    </div>
+</div>
+
+
+<script defer>
+    document.addEventListener('DOMContentLoaded',() =>{
+        const cloud = document.getElementById('cloud')
+        cloud.addEventListener('click',() =>{
+            // redirect to API page
+        })
+    })
+</script>
