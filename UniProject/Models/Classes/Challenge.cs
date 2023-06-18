@@ -4,7 +4,7 @@ using UniProject.Models.Interfaces;
 
 namespace UniProject.Models.Classes
 {
-    public class Challenge : IId, IName
+    public class Challenge : IId, IName, IUserId
     {
         [Key]
         public string Id { get; set; }

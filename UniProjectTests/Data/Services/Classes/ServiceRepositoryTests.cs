@@ -49,7 +49,6 @@ namespace UniProject.Data.Services.Classes.Tests
         //[DataRow(typeof(Exercise_Workout))]
         [DataRow(typeof(Meal))]
         [DataRow(typeof(MealPlan))]
-        [DataRow(typeof(ProgressTracking))]
         [DataRow(typeof(User))]
         [DataRow(typeof(WaterIntake))]
         [DataRow(typeof(Workout))]

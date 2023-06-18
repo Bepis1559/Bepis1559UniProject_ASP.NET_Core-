@@ -19,7 +19,18 @@ namespace UniProject.Data.Services.Classes
 
         public async Task<List<T>> GetAllAsync<T>() where T : class, IId => await _dbContext.Set<T>().ToListAsync();
 
-       
+       public async Task<List<T>> GetAllByUserIdAsync<T>(string userId) where T:class,IUserId
+        {
+            var result = await _dbContext.Set<T>().Where(entity => entity.UserId == userId).ToListAsync();
+            if (result != null)
+            {
+                return result;
+            }
+            else
+            {
+                throw new NullReferenceException("Tried to access entity by userId but got null");
+            }
+        }
 
         public async Task<T> GetByIdAsync<T>(string id) where T : class,IId
         {
@@ -35,6 +46,9 @@ namespace UniProject.Data.Services.Classes
            
 
         }
+
+
+        
 
         public async Task<T> GetByNameAsync<T>(string name) where T : class, IName {
            var result =  await _dbContext.Set<T>().Where(entity => entity.Name == name).FirstOrDefaultAsync();

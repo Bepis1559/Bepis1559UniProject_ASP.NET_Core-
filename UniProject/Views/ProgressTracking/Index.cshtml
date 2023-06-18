@@ -1,0 +1,755 @@
+﻿<link rel="stylesheet" href="~/css/progressTracking.css" />
+@model UniProject.ViewModels.ProgressTrackingViewModel
+<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+<div id="progressTrackingPageContainer">
+      <main id="progressTrackingPageContent">
+        <header>
+          <h1 id="progressTrackingMainHeading">Sky is the limit</h1>
+        </header>
+
+        <!-- 
+
+
+
+
+         -->
+
+@*
+        @foreach(var item in Model)
+        {
+            @Html.DisplayFor(modelItem => item.BenchTracker.LiftedWeight)
+        }*@
+
+        <section class="charts">
+         
+          
+
+          <header><h2>Track your progress</h2></header>
+          <h3>Deadlift</h3>
+          <div class="deadliftContainer">
+            <article class="deadLiftInfoContainer infoContainer">
+              <p>
+                The deadlift is a highly effective compound exercise that
+                targets multiple muscle groups, primarily the lower body, back,
+                and core. It involves lifting a loaded barbell or other heavy
+                object from the ground to a standing position while maintaining
+                proper form. Deadlifts provide numerous benefits. Firstly, they
+                are unparalleled in developing raw strength and power, as they
+                engage large muscle groups, including the glutes, hamstrings,
+                quadriceps, erector spinae, and upper back. This makes them an
+                essential exercise for athletes and weightlifters aiming to
+                increase their overall strength. Additionally, deadlifts improve
+                functional fitness by enhancing core stability, grip strength,
+                and posture. They promote better posture by strengthening the
+                erector spinae muscles, which can help prevent back pain and
+                injuries. Moreover, deadlifts stimulate hormonal responses, such
+                as increased testosterone production, which is crucial for
+                muscle growth and overall body composition. It is vital to learn
+                proper deadlift technique to avoid injury.
+              </p>
+                    <img loading="lazy" src="./assets/progressTracking/deadlift.jpg" alt="deadlift" />
+            </article>
+            <div id="deadliftChartInputcontainer" class="chartInputcontainer">
+              <div class="sliderContainer centeredFlex">
+                <input
+                  id="liftingRange"
+                  name="liftingRange"
+                  class="range"
+                  type="range"
+                  value="0"
+                  min="0"
+                  max="300"
+                  list="snappingPoints" />
+                <datalist class="snappingPoints" id="snappingPoints">
+                </datalist>
+                <label for="liftingRange">0</label>
+              </div>
+              <div class="submitButtonContainer">
+                <button 
+                  data-liftType="deadlift"
+                  id="deadliftChartBtn"
+                  class="addToChartBtn"
+                  type="submit">
+                  Add to chart
+                </button>
+              </div>
+              <div id="presonalWeightContainer">
+                <span id="bodyWeightInputBox">
+                  <label for="bodyWeight"
+                    >Enter your personal weight here&nbsp;:
+                  </label>
+                  <span id="bodyWeightInputSpan">
+                    <input
+                      required
+                      placeholder="70"
+                      value="70"
+                      name="bodyWeight"
+                      class="bodyWeightInput"
+                      id="dealiftBodyWeightInput"
+                      type="number" />
+                    <i></i>
+                  </span>
+                </span>
+              </div>
+            </div>
+            <div id="deadLiftChartContainer" class="chartContainer">
+                    <canvas id="deadLiftChartInitialCanvas" class="initialCanvas"></canvas>
+            </div>
+          </div>
+
+          <!-- 
+
+
+
+
+
+
+ -->
+          <h3>Bench</h3>
+          <div class="benchContainer">
+            <article class="benchInfoContainer infoContainer">
+              <p>
+                The gym bench press is a popular exercise that targets the
+                chest, shoulders, and triceps. It is performed on a sturdy bench
+                with a barbell, making it a compound movement that engages
+                multiple muscle groups. The exercise begins with the individual
+                lying flat on the bench, gripping the barbell slightly wider
+                than shoulder-width apart. The barbell is then lifted off the
+                rack and slowly lowered to the chest, allowing the elbows to
+                bend at a 90-degree angle. The weight is then pressed back up to
+                the starting position, fully extending the arms. The bench press
+                not only enhances upper body strength but also helps improve
+                muscle endurance, power, and overall upper body stability.
+                Variations of the bench press include incline and decline bench
+                presses, which target different angles of the chest muscles. It
+                is important to maintain proper form, use an appropriate weight,
+                and have a spotter for safety while performing the bench press
+                exercise.
+              </p>
+                    <img loading="lazy" src="./assets/progressTracking/bench.jpg" alt="bench" />
+            </article>
+            <div id="benchInputContainer" class="chartInputcontainer">
+              <div class="sliderContainer centeredFlex">
+                <input
+                  id="liftingRange"
+                  name="liftingRange"
+                  class="range"
+                  type="range"
+                  value="0"
+                  min="0"
+                  max="300"
+                  list="snappingPoints" />
+                <datalist class="snappingPoints" id="snappingPoints">
+                </datalist>
+                <label for="liftingRange">0</label>
+              </div>
+              <div class="submitButtonContainer">
+                <button data-liftType = "bench" id="benchChartBtn" class="addToChartBtn" type="submit">
+                  Add to chart
+                </button>
+              </div>
+              <div id="presonalWeightContainer">
+                <span id="bodyWeightInputBox">
+                  <label for="bodyWeight"
+                    >Enter your personal weight here&nbsp;:
+                  </label>
+                  <span id="bodyWeightInputSpan">
+                    <input
+                      required
+                      placeholder="70"
+                      value="70"
+                      name="bodyWeight"
+                      class="bodyWeightInput"
+                      id="benchBodyWeightInput"
+                      type="number" />
+                    <i></i>
+                  </span>
+                </span>
+              </div>
+            </div>
+            <div id="benchChartContainer" class="chartContainer">
+                    <canvas id="benchChartInitialCanvas" class="initialCanvas"></canvas>
+            </div>
+          </div>
+
+          <!-- 
+
+
+
+
+
+
+ -->
+          <h3>Squat</h3>
+          <div class="squatContainer">
+            <article class="squatInfoContainer infoContainer">
+              <p>
+                The gym squat is a fundamental compound exercise that primarily
+                targets the lower body, including the quadriceps, hamstrings,
+                and glutes. It is performed by standing with a barbell resting
+                on the upper back, holding it with a grip slightly wider than
+                shoulder-width apart. The individual then lowers their body by
+                bending at the hips and knees, keeping the chest up and the back
+                straight, until the thighs are parallel to the ground or lower.
+                Finally, they push through the heels to stand back up, returning
+                to the starting position. Squats are known for their ability to
+                develop lower body strength, improve muscle tone, and enhance
+                overall athletic performance. Additionally, squats engage the
+                core muscles, promote balance and stability, and stimulate the
+                release of growth hormone, which aids in muscle growth. It is
+                important to maintain proper form, start with lighter weights,
+                and gradually increase the load for safety and effectiveness
+                while performing squats.
+              </p>
+                    <img loading="lazy" src="./assets/progressTracking/squat.jpg" alt="squat" />
+            </article>
+            <div id="squatInputContainer" class="chartInputcontainer">
+              <div class="sliderContainer centeredFlex">
+                <input
+                  id="liftingRange"
+                  name="liftingRange"
+                  class="range"
+                  type="range"
+                  value="0"
+                  min="0"
+                  max="300"
+                  list="snappingPoints" />
+                <datalist class="snappingPoints" id="snappingPoints">
+                </datalist>
+                <label for="liftingRange">0</label>
+              </div>
+              <div class="submitButtonContainer">
+                <button data-liftType = "squat" id="squatChartBtn" class="addToChartBtn" type="submit">
+                  Add to chart
+                </button>
+              </div>
+              <div id="presonalWeightContainer">
+                <span id="bodyWeightInputBox">
+                  <label for="bodyWeight"
+                    >Enter your personal weight here&nbsp;:
+                  </label>
+                  <span id="bodyWeightInputSpan">
+                    <input
+                      required
+                      placeholder="70"
+                      value="70"
+                      name="bodyWeight"
+                      class="bodyWeightInput"
+                      id="squatBodyWeightInput"
+                      type="number" />
+                    <i></i>
+                  </span>
+                </span>
+              </div>
+            </div>
+            <div id="squatChartContainer" class="chartContainer">
+              <canvas id="squatChartInitialCanvas" class="initialCanvas"></canvas>
+            </div>
+          </div>
+
+          <!-- 
+
+
+
+
+   -->
+        </section>
+        <!-- 
+
+
+
+ -->
+        <section id="referenceSection">
+          <table class="deadliftStandards standardsTable">
+            <caption id="deadliftStandardsCaption">
+              Deadlift Standards (male)
+            </caption>
+          </table>
+          <table class="benchPressStandards standardsTable">
+            <caption>
+              Bench Press Standards (male)
+            </caption>
+          </table>
+          <table class="squatStandards standardsTable">
+            <caption>
+              Squat Standards (male)
+            </caption>
+          </table>
+        </section>
+      </main>
+    </div>
+
+
+
+
+<script defer>
+    const deadliftStandardsTable = document.querySelector(`.deadliftStandards`);
+    const benchPressStandardsTable = document.querySelector(`.benchPressStandards`);
+    const squatStandardsTable = document.querySelector(`.squatStandards`);
+    const liftingRanges = document.querySelectorAll(`.range`);
+    const liftingRangeLabels = document.querySelectorAll(`label[for=liftingRange]`);
+    const liftingRangeDataLists = document.querySelectorAll(`.snappingPoints`);
+    const bodyWeightInputs = document.querySelectorAll(`.bodyWeightInput`);
+   // const initialCanvases = document.querySelectorAll(`.initialCanvas`);
+    const dealiftBodyWeightInput = document.getElementById(
+        `dealiftBodyWeightInput`,
+    );
+    const deadliftChartBtn = document.getElementById(`deadliftChartBtn`);
+    const benchChartBtn = document.getElementById(`benchChartBtn`);
+    const benchBodyWeightInput = document.getElementById(`benchBodyWeightInput`);
+    const squatChartBtn = document.getElementById(`squatChartBtn`);
+    const squatBodyWeightInput = document.getElementById(`squatBodyWeightInput`);
+    //
+    const deadLiftChartInitialCanvas = document.getElementById('deadLiftChartInitialCanvas')
+    const benchChartInitialCanvas = document.getElementById('benchChartInitialCanvas')
+    const squatChartInitialCanvas = document.getElementById('squatChartInitialCanvas')
+    //
+    const bodylWeightAndLiftedWeightDeadLift = [];
+    const bodyWeightAndLiftedWeightBench = [];
+    const bodyWeightAndLiftedWeightSquat = [];
+    // name the keys of this array same as the id's of the chart containers
+    const dataArrays = {
+        deadLiftChartContainer: bodylWeightAndLiftedWeightDeadLift,
+        benchChartContainer: bodyWeightAndLiftedWeightBench,
+        squatChartContainer: bodyWeightAndLiftedWeightSquat,
+    };
+
+    const deadliftTableInfo = getDeadliftInfo();
+    const benchTableInfo = getBenchInfo();
+    const squatTableInfo = getSquatInfo();
+
+    let currentUserId = ''
+
+    document.addEventListener("DOMContentLoaded", () => {
+        
+        getCurrentUser();
+
+        //setTimeout(() =>{
+        //    console.log(currentUserId)
+        //},1000)
+       
+
+
+      // handle initial data in canvases
+
+        handleInitialDataInCanvas(deadLiftChartInitialCanvas, '/ProgressTracking/GetAllDeadliftResults')
+        handleInitialDataInCanvas(benchChartInitialCanvas, '/ProgressTracking/GetAllBenchResults')
+        handleInitialDataInCanvas(squatChartInitialCanvas, '/ProgressTracking/GetAllSquatResults')
+
+        // create the reference tables at the bottom of the page
+
+        createReferenceTable(deadliftStandardsTable, deadliftTableInfo);
+        createReferenceTable(benchPressStandardsTable, benchTableInfo);
+        createReferenceTable(squatStandardsTable, squatTableInfo);
+
+
+        // setup the progress bars
+        handleProgressBar(liftingRanges, liftingRangeLabels, liftingRangeDataLists);
+
+
+        // setup the add to chart buttons 
+
+        handleBodyWeightInput();
+
+        handleAddToChartButtons(
+            deadliftChartBtn,
+            liftingRanges,
+            dealiftBodyWeightInput,
+            dataArrays,
+        );
+        handleAddToChartButtons(
+            benchChartBtn,
+            liftingRanges,
+            benchBodyWeightInput,
+            dataArrays,
+        );
+        handleAddToChartButtons(
+            squatChartBtn,
+            liftingRanges,
+            squatBodyWeightInput,
+            dataArrays,
+        );
+
+    });
+
+
+
+     function getCurrentUser(){
+        $.ajax({
+            url: '/ProgressTracking/GetCurrentUser',
+            type: 'GET',
+            dataType: 'json',
+            success: function (currentUser) {
+                currentUserId = currentUser.id;
+            }
+        });
+    }
+
+
+    function handleInitialDataInCanvas(canvas, url) {
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                // console.log(data)
+                handleChart(canvas, data)
+            }
+        });
+    }
+    
+
+
+    function handleBodyWeightInput() {
+        bodyWeightInputs.forEach((input) => {
+            input.addEventListener("keypress", (e) => {
+                if (e.key.charCodeAt() == 32 || isNaN(e.key)) {
+                    e.preventDefault();
+                }
+            });
+        });
+    }
+
+
+
+
+
+    function handleProgressBar(
+        liftingRanges,
+        liftingRangeLabels,
+        liftingRangeDataLists,
+    ) {
+        liftingRangeDataLists.forEach((datalist) =>
+            addOptionsToDataList(datalist, 0, 300, 5),
+        );
+        setLabelTextToInputValue();
+
+        liftingRanges.forEach((range) => {
+            range.addEventListener("mousemove", () => {
+                setLabelTextToInputValue();
+            });
+            range.addEventListener("change", () => {
+                setLabelTextToInputValue();
+            });
+        });
+        function setLabelTextToInputValue() {
+            for (let i = 0; i < liftingRangeLabels.length; i++) {
+                liftingRangeLabels[i].innerText = liftingRanges[i].value;
+            }
+        }
+        function addOptionsToDataList(datalist, start, end, interval) {
+            for (let i = start; i <= end; i += interval) {
+                const option = document.createElement("option");
+                option.setAttribute("value", i);
+                datalist.appendChild(option);
+            }
+        }
+    }
+
+
+
+    function handleAddToChartButtons(
+        buttonToAddTheListenerOn,
+        liftingRanges,
+        bodyWeightInput,
+        dataArrays,
+    ) {
+        buttonToAddTheListenerOn.addEventListener("click", (e) => {
+
+           
+
+            addToChartBtnOnClick(
+                e,
+                liftingRanges,
+                e.target,
+                bodyWeightInput,
+                dataArrays,
+            );
+        });
+    }
+
+    function addToChartBtnOnClick(
+        e,
+        liftingRanges,
+        button,
+        bodyWeightInput,
+        dataArrays,
+    ) {
+        e.preventDefault();
+
+        liftingRanges.forEach((range) => {
+            if (
+                button.parentElement.parentElement == range.parentElement.parentElement
+            ) {
+                // canvas
+                const chartContainer =
+                    button.parentElement.parentElement.nextElementSibling;
+                Array.from(chartContainer.children).forEach((child) => child.remove());
+                const canvas = document.createElement("canvas");
+                chartContainer.appendChild(canvas);
+
+                // chart data
+             
+                let currentButtonLiftType = button.getAttribute("data-liftType")
+
+                const recordToAdd = {
+                    BodyWeight: bodyWeightInput.value,
+                    LiftedWeight: range.value,
+                    UserId: currentUserId,
+                    type: currentButtonLiftType
+                }
+
+                currentButtonLiftType[0] = currentButtonLiftType[0].toUpperCase()
+
+                // add the new record to the db
+                $.ajax({
+                    url: `/ProgressTracking/Create${currentButtonLiftType}Record`,
+                    type: 'POST',
+                    data: recordToAdd,
+                    success: function () {
+                       
+
+                        // get all the records , so they can be passed to the handleChart()
+                        $.ajax({
+                            url: `/ProgressTracking/GetAll${currentButtonLiftType}Results`,
+                            type: 'GET',
+                            dataType: 'json',
+                            success: function (data) {
+                                handleChart(canvas, data);
+                            }
+                        });
+                    }
+                });
+                // get all records 
+                // set the current array on success of the post request and then handleChart with the success
+               // const currentArray = dataArrays[chartContainer.id];
+               
+
+            }
+        });
+    }
+
+
+    function createReferenceTable(table, infoObject = {}) {
+        const ReferenceTableThead = getReferenceTableThead();
+        const thead = document.createElement("thead");
+        const theadRow = document.createElement("tr");
+        ReferenceTableThead.forEach((el) => {
+            const th = document.createElement("th");
+            th.innerText = el;
+            theadRow.appendChild(th);
+        });
+        thead.appendChild(theadRow);
+
+        const tableBody = document.createElement("tbody");
+        const columnLength = infoObject?.Beginner.length;
+        const keys = Object.keys(infoObject);
+        const rowLength = keys.length;
+        for (let i = 0; i < columnLength; i++) {
+            const tr = document.createElement("tr");
+            for (let j = 0; j < rowLength; j++) {
+                const td = document.createElement("td");
+                td.innerText = infoObject[keys[j]][i];
+                tr.appendChild(td);
+            }
+            tableBody.appendChild(tr);
+        }
+        table.appendChild(thead);
+        table.appendChild(tableBody);
+    }
+
+
+
+    function handleChart(
+        canvas,
+        bodyWeightAndLiftedWeight = [{ bodyWeight: "70", liftedWeight: 90 }],
+    ) {
+        //   canvas = document.getElementById(`chartContextCanvas`);
+
+        let currentAxis = "x";
+
+        let chart = createNewChart(
+            null,
+            canvas,
+            currentAxis,
+            bodyWeightAndLiftedWeight,
+        );
+
+        if (document.body.clientWidth < 350) {
+            currentAxis = "y";
+            chart = createNewChart(
+                chart,
+                canvas,
+                currentAxis,
+                bodyWeightAndLiftedWeight,
+            );
+        }
+
+        const observer = new ResizeObserver((entries) => {
+            if (entries[0].contentRect.width < 350 && currentAxis == "x") {
+                currentAxis = "y";
+                chart = createNewChart(
+                    chart,
+                    canvas,
+                    currentAxis,
+                    bodyWeightAndLiftedWeight,
+                );
+            } else if (entries[0].contentRect.width > 350 && currentAxis == "y") {
+                currentAxis = "x";
+
+                chart = createNewChart(
+                    chart,
+                    canvas,
+                    currentAxis,
+                    bodyWeightAndLiftedWeight,
+                );
+            }
+        });
+        observer.observe(document.body);
+    }
+
+    function createNewChart(
+        chart,
+        context,
+        newAxis,
+        bodyWeightAndLiftedWeight,
+    ) {
+        const chartLabel = "Lifted weight / body weight";
+        chart?.destroy();
+        const chartOptions = {
+            //   type: "bar",
+            data: {
+                labels: bodyWeightAndLiftedWeight.map(
+                    (pair) => `body weight : ${pair.bodyWeight}`,
+                ),
+                datasets: [
+                    {
+                        type: "bar",
+                        label: chartLabel,
+                        data: bodyWeightAndLiftedWeight.map((pair) => pair.liftedWeight),
+                        borderWidth: 1,
+                    },
+                    {
+                        type: "line",
+                        label: "",
+                        data: bodyWeightAndLiftedWeight.map((pair) => pair.liftedWeight),
+                        borderWidth: 1,
+                    },
+                ],
+            },
+            options: {
+                indexAxis: newAxis,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
+                },
+                responsive: true,
+                maintainAspectRatio: false,
+            },
+        };
+        chart = new Chart(context, chartOptions);
+        return chart;
+    }
+
+     function getReferenceTableThead() {
+        return [
+            "Bodyweight",
+            "Beginner",
+            "Novice",
+            "Intermediate",
+            "Advanced",
+            "Elite",
+        ];
+    }
+
+     function getDeadliftInfo() {
+        const deadliftTableInfo = {
+            bodyweight: [
+                50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130,
+                135, 140,
+            ],
+            Beginner: [
+                44, 51, 58, 66, 73, 79, 86, 93, 99, 105, 111, 117, 123, 129, 134, 140,
+                145, 150, 155,
+            ],
+            Novice: [
+                65, 74, 83, 92, 100, 108, 116, 123, 131, 138, 145, 151, 158, 164, 171,
+                177, 183, 188, 194,
+            ],
+            Intermediate: [
+                93, 103, 114, 124, 133, 142, 151, 160, 168, 176, 184, 192, 199, 206, 213,
+                220, 227, 233, 240,
+            ],
+            Advanced: [
+                125, 137, 149, 160, 171, 182, 192, 201, 211, 220, 228, 237, 245, 253, 261,
+                268, 276, 283, 290,
+            ],
+            Elite: [
+                160, 174, 187, 200, 212, 224, 235, 245, 256, 266, 275, 284, 293, 302, 311,
+                319, 327, 335, 342,
+            ],
+        };
+        return deadliftTableInfo;
+    }
+
+     function getBenchInfo() {
+        const benchTableInfo = {
+            bodyweight: [
+                50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130,
+                135, 140,
+            ],
+            Beginner: [
+                24, 29, 34, 39, 44, 49, 53, 58, 62, 67, 71, 75, 80, 84, 88, 92, 95, 99,
+                103,
+            ],
+            Novice: [
+                38, 45, 51, 57, 62, 68, 74, 79, 84, 89, 94, 99, 104, 109, 113, 118, 122,
+                126, 130,
+            ],
+            Intermediate: [
+                57, 64, 72, 79, 85, 92, 98, 105, 111, 116, 122, 128, 133, 138, 143, 148,
+                153, 158, 163,
+            ],
+            Advanced: [
+                79, 87, 96, 104, 112, 119, 127, 134, 141, 147, 153, 160, 166, 172, 177,
+                183, 188, 194, 199,
+            ],
+            Elite: [
+                103, 113, 123, 132, 141, 149, 157, 165, 172, 180, 187, 194, 200, 207, 213,
+                219, 225, 231, 236,
+            ],
+        };
+        return benchTableInfo;
+    }
+
+     function getSquatInfo() {
+        const squatTableInfo = {
+            bodyweight: [
+                50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130,
+                135, 140,
+            ],
+            Beginner: [
+                33, 40, 47, 53, 59, 66, 72, 78, 83, 89, 95, 100, 106, 111, 116, 121, 126,
+                131, 136,
+            ],
+            Novice: [
+                52, 60, 68, 76, 83, 91, 98, 105, 112, 118, 125, 131, 137, 143, 149, 155,
+                160, 166, 171,
+            ],
+            Intermediate: [
+                76, 86, 95, 104, 113, 122, 130, 138, 146, 153, 160, 168, 174, 181, 188,
+                194, 201, 207, 213,
+            ],
+            Advanced: [
+                104, 116, 127, 137, 147, 157, 166, 175, 184, 192, 201, 209, 216, 224, 231,
+                238, 245, 252, 259,
+            ],
+            Elite: [
+                136, 149, 161, 173, 184, 195, 205, 215, 225, 234, 243, 252, 260, 269, 277,
+                284, 292, 299, 307,
+            ],
+        };
+        return squatTableInfo;
+    }
+</script>

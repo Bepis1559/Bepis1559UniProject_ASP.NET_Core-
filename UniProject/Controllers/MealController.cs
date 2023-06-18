@@ -10,7 +10,7 @@ namespace UniProject.Controllers
 {
     public class MealController : Controller
     {
-       // private readonly MealsService _mealsService;
+      
         private readonly ILogger<MealController> _logger;
         private readonly ServiceRepository _serviceRepository;
         public MealController( ILogger<MealController> logger, ServiceRepository serviceRepository)

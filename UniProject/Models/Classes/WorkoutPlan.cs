@@ -4,7 +4,7 @@ using UniProject.Models.Interfaces;
 
 namespace UniProject.Models.Classes
 {
-    public class WorkoutPlan : IId, IName
+    public class WorkoutPlan : IId, IName, IUserId
     {
         [Key]
         public string Id { get; set; }

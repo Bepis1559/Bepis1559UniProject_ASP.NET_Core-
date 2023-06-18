@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UniProject.Data.Classes;
 
@@ -11,9 +12,11 @@ using UniProject.Data.Classes;
 namespace UniProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230617175732_fourth")]
+    partial class fourth
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -170,16 +173,10 @@ namespace UniProject.Migrations
                     b.Property<float?>("LiftedWeight")
                         .HasColumnType("real");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("BenchTrackers");
                 });
@@ -254,31 +251,6 @@ namespace UniProject.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Challenges");
-                });
-
-            modelBuilder.Entity("UniProject.Models.Classes.DeadliftTracker", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<float?>("BodyWeight")
-                        .HasColumnType("real");
-
-                    b.Property<float?>("LiftedWeight")
-                        .HasColumnType("real");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("DeadliftTrackers");
                 });
 
             modelBuilder.Entity("UniProject.Models.Classes.Exercise", b =>
@@ -376,29 +348,33 @@ namespace UniProject.Migrations
                     b.ToTable("MealPlans");
                 });
 
-            modelBuilder.Entity("UniProject.Models.Classes.SquatTracker", b =>
+            modelBuilder.Entity("UniProject.Models.Classes.ProgressTracking", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<float?>("Bench")
+                        .HasColumnType("real");
+
                     b.Property<float?>("BodyWeight")
                         .HasColumnType("real");
 
-                    b.Property<float?>("LiftedWeight")
+                    b.Property<float?>("Deadlift")
                         .HasColumnType("real");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<float?>("Squat")
+                        .HasColumnType("real");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
-                    b.ToTable("SquatTrackers");
+                    b.ToTable("ProgressTrackings");
                 });
 
             modelBuilder.Entity("UniProject.Models.Classes.User", b =>
@@ -618,13 +594,6 @@ namespace UniProject.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("UniProject.Models.Classes.BenchTracker", b =>
-                {
-                    b.HasOne("UniProject.Models.Classes.User", null)
-                        .WithMany("BenchTrackers")
-                        .HasForeignKey("UserId");
-                });
-
             modelBuilder.Entity("UniProject.Models.Classes.BodyweightTracker", b =>
                 {
                     b.HasOne("UniProject.Models.Classes.User", null)
@@ -643,13 +612,6 @@ namespace UniProject.Migrations
                 {
                     b.HasOne("UniProject.Models.Classes.User", null)
                         .WithMany("Challenges")
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("UniProject.Models.Classes.DeadliftTracker", b =>
-                {
-                    b.HasOne("UniProject.Models.Classes.User", null)
-                        .WithMany("DeadliftTrackers")
                         .HasForeignKey("UserId");
                 });
 
@@ -686,11 +648,11 @@ namespace UniProject.Migrations
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("UniProject.Models.Classes.SquatTracker", b =>
+            modelBuilder.Entity("UniProject.Models.Classes.ProgressTracking", b =>
                 {
                     b.HasOne("UniProject.Models.Classes.User", null)
-                        .WithMany("SquatTrackers")
-                        .HasForeignKey("UserId");
+                        .WithOne("ProgressTracking")
+                        .HasForeignKey("UniProject.Models.Classes.ProgressTracking", "UserId");
                 });
 
             modelBuilder.Entity("UniProject.Models.Classes.WaterIntake", b =>
@@ -741,19 +703,15 @@ namespace UniProject.Migrations
 
             modelBuilder.Entity("UniProject.Models.Classes.User", b =>
                 {
-                    b.Navigation("BenchTrackers");
-
                     b.Navigation("BodyweightTrackers");
 
                     b.Navigation("CalorieTrackers");
 
                     b.Navigation("Challenges");
 
-                    b.Navigation("DeadliftTrackers");
-
                     b.Navigation("MealPlans");
 
-                    b.Navigation("SquatTrackers");
+                    b.Navigation("ProgressTracking");
 
                     b.Navigation("WaterIntakes");
 

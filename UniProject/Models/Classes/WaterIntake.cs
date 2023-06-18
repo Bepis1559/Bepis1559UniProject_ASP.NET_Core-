@@ -4,7 +4,7 @@ using UniProject.Models.Interfaces;
 
 namespace UniProject.Models.Classes
 {
-    public class WaterIntake : IId
+    public class WaterIntake : IId, IUserId
     {
         [Key]
         public string Id { get; set; }

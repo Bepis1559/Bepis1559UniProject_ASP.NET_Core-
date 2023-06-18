@@ -1,0 +1,335 @@
+﻿/* page container */
+
+#progressTrackingPageContainer {
+    min-height: 100dvi;
+    background-color: rgb(20, 20, 20);
+    background-image: url("../assets/progressTracking/background.jpg");
+    background-position: 50% 0%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-blend-mode: difference;
+    /* background-blend-mode: overlay; */
+}
+
+/* main */
+main#progressTrackingPageContent {
+    --color-primary: rgb(0, 81, 255);
+    --color-secondary: rgb(0, 66, 209);
+    --color-tertiary: rgb(0, 53, 167);
+    --color-quaternary: rgb(0, 45, 143);
+    --color-quinary: rgb(0, 29, 90);
+    --chartButtonBgColor: rgb(255, 26, 102);
+    --subHeadingsColor: rgb(82, 54, 238);
+    --headingLetterSpacing: 0.3em;
+    --headingWordSpacing: 0.2em;
+    --h1fz: clamp(1rem + 1.5vw, 1rem + 2.5vw, 1rem + 3.2vw);
+    --h2fz: clamp(1rem + 1.2vw, 1rem + 2.2vw, 1rem + 2.9vw);
+    --h3fz: clamp(1rem + 0.8vw, 1rem + 1.7vw, 1rem + 2.6vw);
+    --topPageBlockMargins: 3em;
+    --anchorBg: #006effcb;
+    --containersWidth: min(90%, 1500px);
+    --tableFz: clamp(1rem, 1rem + 0.5жв, 1rem + 1vw);
+    --biggerContanersBgColor: rgba(81, 81, 255, 0.068);
+    --mainHeadingsBgImage: url("../assets/progressTracking/flames.jpg");
+    display: flow-root;
+    width: min(90%, 75em);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: clamp(1rem, 1rem + 0.2vw, 1rem + 0.4vw);
+    margin-inline: auto;
+    padding-block-end: var(--topPageBlockMargins);
+}
+
+#progressTrackingPageContent img {
+    border-radius: 1em;
+}
+
+#progressTrackingMainHeading {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: var(--h1fz);
+    color: transparent;
+    background-clip: text;
+    background-image: var(--mainHeadingsBgImage);
+    letter-spacing: var(--headingLetterSpacing);
+    word-spacing: var(--headingWordSpacing);
+    transform: skewX(-20deg);
+    text-align: center;
+    margin-block: calc(var(--topPageBlockMargins) - 1em);
+}
+
+/* charts */
+#progressTrackingPageContent section.charts {
+    padding-block-start: 2em;
+    border-radius: 1em;
+    background: var(--biggerContanersBgColor);
+}
+
+    #progressTrackingPageContent section.charts h2 {
+        /* margin-block: calc(var(--topPageBlockMargins) - 1em); */
+        margin-block-end: 4em;
+        letter-spacing: var(--headingLetterSpacing);
+        word-spacing: var(--headingWordSpacing);
+        text-align: center;
+        font-weight: 999;
+        background-clip: text;
+        background-image: var(--mainHeadingsBgImage);
+        font-size: var(--h2fz);
+        color: transparent;
+    }
+
+    #progressTrackingPageContent section.charts h3 {
+        text-align: center;
+        color: var(--subHeadingsColor);
+        font-size: var(--h3fz);
+        letter-spacing: 0.1em;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+/* presonalWeightContainer */
+
+#presonalWeightContainer {
+    --labelUnderlineOffset: 0.5ch;
+    text-align: center;
+    margin-inline: auto;
+    margin-block: 1em;
+    background: #181818;
+    padding: 0.5em 1em;
+    border-radius: 0.5em;
+    font-size: clamp(1rem + 0.2vw, 1rem + 0.6vw, 1rem + 1vw);
+    /* width: 85%; */
+}
+
+    #presonalWeightContainer label {
+        margin-inline-end: 0.5em;
+    }
+
+    #presonalWeightContainer input {
+        outline: none;
+        border: none;
+        text-align: center;
+        background: transparent;
+    }
+
+@media (width < 30em) {
+    #bodyWeightInputSpan input {
+        width: 100%;
+    }
+}
+
+#bodyWeightInputSpan {
+    position: relative;
+}
+
+@media (width < 58em) {
+    #bodyWeightInputSpan {
+        display: block;
+        width: 50%;
+        margin-inline: auto;
+        margin-block-start: 1em;
+    }
+}
+
+#bodyWeightInputSpan i {
+    position: absolute;
+    height: 0.2ch;
+    width: 100%;
+    bottom: 5%;
+    background-color: var(--color-secondary);
+    opacity: 0.5;
+    left: 0;
+}
+
+#bodyWeightInputSpan input:is(:valid, :focus-visible) + i {
+    opacity: 1;
+    background-image: linear-gradient( 90deg, var(--color-primary), rgb(0, 217, 255), var(--color-primary), rgb(0, 217, 255) );
+    animation: animateIcon 10s infinite linear backwards;
+}
+
+@keyframes animateIcon {
+    100% {
+        background-position-x: 100vw;
+    }
+}
+
+/* infoContainers */
+.infoContainer {
+    display: grid;
+    margin-block-start: 15em;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 24.5em), 1fr));
+    width: var(--containersWidth);
+    margin-inline: auto;
+    gap: var(--topPageBlockMargins);
+}
+
+    .infoContainer:first-of-type {
+        margin-block-start: 5em;
+    }
+
+    .infoContainer h3 {
+        font-size: var(--h3fz);
+        text-align: center;
+    }
+
+    .infoContainer img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .infoContainer p {
+        border-radius: 1em;
+        padding: 0.5em 1em;
+        text-indent: 0.3em;
+        line-height: 1.7em;
+        background: rgb(24, 24, 24);
+    }
+
+/* charts */
+.chartInputcontainer {
+    margin: var(--topPageBlockMargins) auto;
+    margin-block-start: 5em;
+}
+
+.centeredFlex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chartInputcontainer {
+    --containerBg: #edf1f485;
+    background: var(--containerBg);
+    width: var(--containersWidth);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: clamp(1rem, 1rem + 0.35vw, 1rem + 0.55vw);
+    border-radius: 1em;
+    padding: 1em;
+}
+
+.sliderContainer {
+    --rangeBg: #279fff;
+    --boxInlinePadding: 1em;
+    gap: var(--boxInlinePadding);
+    padding: var(--boxInlinePadding) calc(var(--boxInlinePadding) * 2);
+    background: linear-gradient(180deg, rgb(236, 236, 236), var(--containerBg));
+    opacity: 0.8;
+    border-radius: 2em;
+    box-shadow: inset 0 0 0.35em 0.15em #e6e6e6, inset 0 0 0.5em 0.3em rgb(245, 245, 245);
+}
+
+.range {
+    --rangeBorderRadius: 1em;
+    height: 1.1em;
+    background: var(--containerBg);
+    border-radius: 1em;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1), -5px -5px 10px #fff, inset 5px 5px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+input[type="range"]::-moz-range-thumb {
+    background-color: whitesmoke;
+    border: 2px solid var(--rangeBg);
+    border-radius: 50%;
+    box-shadow: -410px 0 0 400px var(--rangeBg);
+}
+
+label[for="liftingRange"] {
+    padding: 0.5em;
+    border-radius: 100dvb;
+    background: var(--rangeBg);
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1), -5px -5px 10px #fff, inset 5px 5px 10px rgba(0, 0, 0, 0.1), inset -5px -5px 5px rgba(255, 255, 255, 0.25);
+}
+
+.submitButtonContainer {
+    padding: 1em;
+    text-align: center;
+}
+
+    .submitButtonContainer button {
+        position: relative;
+        padding: 0.5em 1em;
+        border-radius: 1em;
+        border: none;
+        background: var(--chartButtonBgColor);
+        font-weight: 700;
+        font-family: cursive;
+        box-shadow: -0.1em 0.1em 0.5em 0.1em rgba(206, 206, 206, 0.349), inset 0 0 0.3em 0.1em rgb(248, 0, 83), inset 0 0 0.05em 0.05em rgb(255, 255, 255);
+        text-shadow: 0 0 0.5em rgba(230, 93, 93, 0.616);
+        cursor: pointer;
+        outline: 0.1em solid transparent;
+        transition: outline 0.25s;
+    }
+
+        .submitButtonContainer button[type="submit"]:is(:hover, :focus-visible) {
+            outline-color: rgb(255, 119, 164);
+        }
+
+.chartContainer {
+    margin-inline: auto;
+    width: var(--containersWidth);
+    margin-block: 5em 15em;
+    min-height: 20em;
+}
+
+.chartInputcontainer {
+    display: flex;
+    flex-direction: column;
+}
+
+    .chartInputcontainer a {
+        text-align: center;
+        align-self: center;
+    }
+
+/* standards Tables */
+section#referenceSection {
+    background: var(--biggerContanersBgColor);
+    border-radius: 1em;
+    padding-block-end: 2em;
+}
+
+.standardsTable caption {
+    /* margin-block: var(--topPageBlockMargins); */
+    margin-block: 5em 1em;
+    font-size: var(--h2fz);
+    color: var(--subHeadingsColor);
+}
+
+    .standardsTable caption#deadliftStandardsCaption {
+        margin-block-start: 2em;
+    }
+
+.standardsTable {
+    margin-inline: auto;
+    border-collapse: collapse;
+    font-size: var(--tableFz);
+    box-shadow: -0.3em 0.3em 0.3em 0.1em #131313;
+}
+
+    .standardsTable :is(th, td) {
+        box-shadow: inset 0em 0em 0.1em 0.05em #131313;
+        text-align: center;
+        padding: 0.5em 1em;
+        background: rgb(27, 27, 27);
+    }
+
+@media (width < 41em) {
+    .standardsTable :is(th, td) {
+        padding: 0.25em 0.5em;
+    }
+}
+
+@media (width < 35em) {
+    .standardsTable th {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 3ch;
+    }
+}
+
+@media (width < 20em) {
+    .standardsTable :is(th, td) {
+        padding-inline: 0.2em;
+    }
+}

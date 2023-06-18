@@ -1,19 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using UniProject.Models.Interfaces;
 
 namespace UniProject.Models.Classes
 {
-    public class ProgressTracking : IId
+    public class BaseProgressTracker : IProgressTracker, IId, IUserId
     {
         [Key]
         public string Id { get; set; }
 
         public float? BodyWeight { get; set; }
-        public float? Bench { get; set; }
-        public float? Squat { get; set; }
-        public float? Deadlift { get; set; }
-        public ProgressTracking()
+        public float? LiftedWeight { get; set; }
+        public virtual string Type { get; set; } = "Base";
+        public BaseProgressTracker()
         {
             Id = Guid.NewGuid().ToString();
         }
@@ -23,5 +22,7 @@ namespace UniProject.Models.Classes
         [ForeignKey(nameof(User))]
 
         public string? UserId { get; set; }
+
+        
     }
 }

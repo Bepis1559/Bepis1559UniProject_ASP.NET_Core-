@@ -40,7 +40,10 @@ namespace UniProject.Models.Classes
 
         // relations
 
-        public ProgressTracking? ProgressTracking { get; set; }
+
+        public ICollection<DeadliftTracker> DeadliftTrackers { get; set; } = new List<DeadliftTracker>();
+        public ICollection<BenchTracker> BenchTrackers { get; set; } = new List<BenchTracker>();
+        public ICollection<SquatTracker> SquatTrackers { get; set; } = new List<SquatTracker>();
         public ICollection<MealPlan> MealPlans { get; set; } = new List<MealPlan>();
         public ICollection<WorkoutPlan> WorkoutPlans { get; set; } = new List<WorkoutPlan>();
         public ICollection<Challenge> Challenges { get; set; } = new List<Challenge>();

@@ -4,7 +4,7 @@ using UniProject.Models.Interfaces;
 
 namespace UniProject.Models.Classes
 {
-    public class CalorieTracker : IId
+    public class CalorieTracker : IId, IUserId
     {
         [Key]
         public string Id { get; set; }
