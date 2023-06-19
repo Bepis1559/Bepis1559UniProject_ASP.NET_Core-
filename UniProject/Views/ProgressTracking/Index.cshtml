@@ -91,8 +91,11 @@
                   </span>
                 </span>
               </div>
+                    <button data-removeLastFromChart="Deadlift" class="removeLastOnChartButton">
+                        Remove last
+                    </button>
             </div>
-            <div id="deadLiftChartContainer" class="chartContainer">
+            <div id="DeadliftChartContainer" class="chartContainer">
                     <canvas id="deadLiftChartInitialCanvas" class="initialCanvas"></canvas>
             </div>
           </div>
@@ -166,8 +169,11 @@
                   </span>
                 </span>
               </div>
+                    <button data-removeLastFromChart="Bench" class="removeLastOnChartButton">
+                        Remove last
+                    </button>
             </div>
-            <div id="benchChartContainer" class="chartContainer">
+            <div id="BenchChartContainer" class="chartContainer">
                     <canvas id="benchChartInitialCanvas" class="initialCanvas"></canvas>
             </div>
           </div>
@@ -241,8 +247,11 @@
                   </span>
                 </span>
               </div>
+              <button data-removeLastFromChart = "Squat" class="removeLastOnChartButton">
+                  Remove last
+              </button>
             </div>
-            <div id="squatChartContainer" class="chartContainer">
+            <div id="SquatChartContainer" class="chartContainer">
               <canvas id="squatChartInitialCanvas" class="initialCanvas"></canvas>
             </div>
           </div>
@@ -290,6 +299,11 @@
     const liftingRangeLabels = document.querySelectorAll(`label[for=liftingRange]`);
     const liftingRangeDataLists = document.querySelectorAll(`.snappingPoints`);
     const bodyWeightInputs = document.querySelectorAll(`.bodyWeightInput`);
+    // remove last from chart buttons
+    const removeLastSquatFromChartButton = document.querySelector('button[data-removeLastFromChart=Squat]')
+    const removeLastBenchFromChartButton = document.querySelector('button[data-removeLastFromChart=Bench]')
+    const removeLastDeadliftFromChartButton = document.querySelector('button[data-removeLastFromChart=Deadlift]')
+   
    // const initialCanvases = document.querySelectorAll(`.initialCanvas`);
     const dealiftBodyWeightInput = document.getElementById(
         `dealiftBodyWeightInput`,
@@ -309,9 +323,9 @@
     const bodyWeightAndLiftedWeightSquat = [];
     // name the keys of this array same as the id's of the chart containers
     const dataArrays = {
-        deadLiftChartContainer: bodylWeightAndLiftedWeightDeadLift,
-        benchChartContainer: bodyWeightAndLiftedWeightBench,
-        squatChartContainer: bodyWeightAndLiftedWeightSquat,
+        DeadliftChartContainer: bodylWeightAndLiftedWeightDeadLift,
+        BenchChartContainer: bodyWeightAndLiftedWeightBench,
+        SquatChartContainer: bodyWeightAndLiftedWeightSquat,
     };
 
     const deadliftTableInfo = getDeadliftInfo();
@@ -370,6 +384,10 @@
             dataArrays,
         );
 
+        handleRemoveLastFromChartButtons(removeLastBenchFromChartButton)
+        handleRemoveLastFromChartButtons(removeLastDeadliftFromChartButton)
+        handleRemoveLastFromChartButtons(removeLastSquatFromChartButton)
+
     });
 
 
@@ -380,7 +398,9 @@
             type: 'GET',
             dataType: 'json',
             success: function (currentUser) {
+               
                 currentUserId = currentUser.id;
+                
             }
         });
     }
@@ -445,6 +465,60 @@
             }
         }
     }
+
+
+    function handleRemoveLastFromChartButtons(button){
+
+        button.addEventListener('click',e =>{
+
+            const currentButtonRemoveType = e.target.getAttribute("data-removeLastFromChart")
+            // handle canvas
+
+
+            // get the overall container from the button
+            const currentContainer = e.target.parentElement.parentElement
+            
+            // get the chart container we need
+            const currentChartContainer = Array.from(currentContainer.children).find(child => child.id == `${currentButtonRemoveType}ChartContainer`)
+
+            // remove all canvases from this chart container
+            Array.from(currentChartContainer.children).forEach((child) => child.remove());
+            
+            // create and append a new canvas
+            const canvas = document.createElement("canvas");
+            currentChartContainer.appendChild(canvas);
+
+
+                    $.ajax({
+                        url: `/ProgressTracking/RemoveLast${currentButtonRemoveType}Record`,
+                        type: 'DELETE',
+                        data: { userId: currentUserId },
+                        success: function () {
+
+
+                            // get all the records , so they can be passed to the handleChart()
+                            $.ajax({
+                                url: `/ProgressTracking/GetAll${currentButtonRemoveType}Results`,
+                                type: 'GET',
+                                dataType: 'json',
+                                success: function (data) {
+                                    handleChart(canvas, data);
+                                }
+                            });
+                        }
+                    });
+
+                
+           
+         
+           
+            
+        })
+
+    }
+    
+
+
 
 
 
@@ -520,9 +594,8 @@
                         });
                     }
                 });
-                // get all records 
-                // set the current array on success of the post request and then handleChart with the success
-               // const currentArray = dataArrays[chartContainer.id];
+              
+               
                
 
             }
@@ -530,33 +603,7 @@
     }
 
 
-    function createReferenceTable(table, infoObject = {}) {
-        const ReferenceTableThead = getReferenceTableThead();
-        const thead = document.createElement("thead");
-        const theadRow = document.createElement("tr");
-        ReferenceTableThead.forEach((el) => {
-            const th = document.createElement("th");
-            th.innerText = el;
-            theadRow.appendChild(th);
-        });
-        thead.appendChild(theadRow);
-
-        const tableBody = document.createElement("tbody");
-        const columnLength = infoObject?.Beginner.length;
-        const keys = Object.keys(infoObject);
-        const rowLength = keys.length;
-        for (let i = 0; i < columnLength; i++) {
-            const tr = document.createElement("tr");
-            for (let j = 0; j < rowLength; j++) {
-                const td = document.createElement("td");
-                td.innerText = infoObject[keys[j]][i];
-                tr.appendChild(td);
-            }
-            tableBody.appendChild(tr);
-        }
-        table.appendChild(thead);
-        table.appendChild(tableBody);
-    }
+  
 
 
 
@@ -662,6 +709,39 @@
             "Elite",
         ];
     }
+
+
+
+
+    function createReferenceTable(table, infoObject = {}) {
+        const ReferenceTableThead = getReferenceTableThead();
+        const thead = document.createElement("thead");
+        const theadRow = document.createElement("tr");
+        ReferenceTableThead.forEach((el) => {
+            const th = document.createElement("th");
+            th.innerText = el;
+            theadRow.appendChild(th);
+        });
+        thead.appendChild(theadRow);
+
+        const tableBody = document.createElement("tbody");
+        const columnLength = infoObject?.Beginner.length;
+        const keys = Object.keys(infoObject);
+        const rowLength = keys.length;
+        for (let i = 0; i < columnLength; i++) {
+            const tr = document.createElement("tr");
+            for (let j = 0; j < rowLength; j++) {
+                const td = document.createElement("td");
+                td.innerText = infoObject[keys[j]][i];
+                tr.appendChild(td);
+            }
+            tableBody.appendChild(tr);
+        }
+        table.appendChild(thead);
+        table.appendChild(tableBody);
+    }
+
+
 
      function getDeadliftInfo() {
         const deadliftTableInfo = {

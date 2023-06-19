@@ -92,6 +92,15 @@ namespace UniProject.Data.Services.Classes
             return entitiesToDelete;
         }
 
+        public async Task<List<T>> DeleteLastAsync<T>(string userId)where T : class, IId,IUserId
+        {
+            List<T> listToDeleteTheLastFrom = await GetAllByUserIdAsync<T>(userId);
+            var itemToRemove = listToDeleteTheLastFrom[^1];
+            _dbContext.Set<T>().Remove(itemToRemove);
+            await Save();
+            return listToDeleteTheLastFrom;
+        }
+
         public async Task<T> UpdateAsync<T>(T entity) where T : class,IId
         {
             if(entity != null)

@@ -178,10 +178,12 @@ main#progressTrackingPageContent {
     }
 
     .infoContainer p {
+        min-height : 100%;
         border-radius: 1em;
         padding: 0.5em 1em;
         text-indent: 0.3em;
         line-height: 1.7em;
+        /*height : 100%;*/
         background: rgb(24, 24, 24);
     }
 
@@ -280,6 +282,21 @@ label[for="liftingRange"] {
     .chartInputcontainer a {
         text-align: center;
         align-self: center;
+    }
+
+button.removeLastOnChartButton {
+    background: rgb(27, 27, 27);
+    cursor: pointer;
+    padding: 0.3em 0.6em;
+    outline: none;
+    border: 1px solid transparent;
+    border-radius: 0.5em;
+    transition: border-color 0.25s;
+    align-self: center;
+}
+
+    button.removeLastOnChartButton:is(:hover, :focus-visible) {
+        border-color: #646cff;
     }
 
 /* standards Tables */

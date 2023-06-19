@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using UniProject.Data.Services.Classes;
 using UniProject.Models.Classes;
 using UniProject.Models.Interfaces;
@@ -26,18 +27,6 @@ namespace UniProject.Controllers
         {
             return View();
         }
-
-        //var deadliftResults = await _serviceRepository.GetAllAsync<DeadliftTracker>();
-        //var benchResults = await _serviceRepository.GetAllAsync<BenchTracker>();
-        //var squatResults = await _serviceRepository.GetAllAsync<SquatTracker>();
-
-        //List<List<BaseProgressTracker>> results = new()
-        //    {
-        //        deadliftResults.Cast<BaseProgressTracker>().ToList(),
-        //        benchResults.Cast<BaseProgressTracker>().ToList(),
-        //        squatResults.Cast<BaseProgressTracker>().ToList(),
-        //    };
-
 
         public async Task<JsonResult> GetAllDeadliftResults()
         {
@@ -133,11 +122,7 @@ namespace UniProject.Controllers
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser.Id == userId)
             {
-                ProgressTrackingViewModel viewModel = new()
-                {
-                    // Set the DeadliftTracker property
-                    DeadliftTracker = newRecord
-                };
+                ProgressTrackingViewModel viewModel = new(){};
 
                 await _serviceRepository.CreateAsync(newRecord);
                 return View("Index", viewModel);
@@ -148,8 +133,56 @@ namespace UniProject.Controllers
             }
         }
 
+        // deleting last element from the charts
+        [HttpDelete]
+        public async Task<IActionResult> RemoveLastDeadliftRecord(string userId)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser.Id == userId)
+            {
+             
+               await _serviceRepository.DeleteLastAsync<DeadliftTracker>(userId);
+                ProgressTrackingViewModel viewModel = new()  { };
+                return View("Index", viewModel);
 
-        public async Task<JsonResult> GetCurrentUser()
+            }
+            return View("Error"); 
+        }
+        // RemoveLastBenchRecord
+        [HttpDelete]
+        public async Task<IActionResult> RemoveLastBenchRecord(string userId)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser.Id == userId)
+            {
+
+                await _serviceRepository.DeleteLastAsync<BenchTracker>(userId);
+                ProgressTrackingViewModel viewModel = new() { };
+                return View("Index", viewModel);
+
+            }
+            return View("Error");
+        }
+
+
+        [HttpDelete]
+        public async Task<IActionResult> RemoveLastSquatRecord(string userId)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser.Id == userId)
+            {
+
+                await _serviceRepository.DeleteLastAsync<SquatTracker>(userId);
+                ProgressTrackingViewModel viewModel = new() { };
+                return View("Index", viewModel);
+
+            }
+            return View("Error");
+        }
+
+
+
+            public async Task<JsonResult> GetCurrentUser()
         {
             var currentUser = await _userManager.GetUserAsync(User);
             return Json(currentUser);
