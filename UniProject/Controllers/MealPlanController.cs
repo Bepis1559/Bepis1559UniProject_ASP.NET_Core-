@@ -107,6 +107,16 @@ namespace UniProject.Controllers
 
         }
 
+        [HttpGet]
+
+        public async Task<JsonResult> GetAllMealPlans()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var currentUserMealPlans = await _serviceRepository.GetAllByUserIdAsync<MealPlan>(user.Id);
+            return Json(currentUserMealPlans);
+
+        }
+
 
     }
 }

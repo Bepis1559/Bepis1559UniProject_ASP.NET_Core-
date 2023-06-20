@@ -1,4 +1,6 @@
 ﻿<link rel="stylesheet" href="~/css/mealPlan.css" asp-append-version="true" />
+@*<script src="~/js/disintegrate.js" defer></script>
+<script src="~/js/html2canvas.min.js" defer></script>*@
 @model IEnumerable<UniProject.Models.Classes.MealPlan>
 
 
@@ -19,7 +21,7 @@
 
     @if (Model != null && Model.Any())
     {
-        <table class="table  ">
+        <table class="table">
             <thead>
                 <tr>
                     <th>
@@ -95,7 +97,8 @@
         deleteButtons.forEach(deleteButton => {
             deleteButton.addEventListener('click', () => {
                 let mealPlanId = deleteButton.getAttribute('data-MealPlanId');
-
+                const currentButtonTableRow = deleteButton.parentElement.parentElement
+               // console.log(currentButtonTableRow)
                 swal({
                     title: 'Are you sure you want to delete that?',
                     icon: 'warning',
@@ -107,14 +110,18 @@
                             url: '/MealPlan/DeleteMealPlanById',
                             type: 'DELETE',
                             data: { id: mealPlanId },
-                            success: function (result) {
+                            success: function () {
                                 swal('Meal plan deleted successfully!', {
                                     icon: 'success'
                                 });
+
+                                currentButtonTableRow.remove()
                             },
                             error: function (xhr, status, error) {
                                 swal(error, {
-                                    icon: 'warning'
+                                    title : 'Something went wrong',
+                                    icon: 'warning',
+                                    dangerMode: true
                                 });
                             }
                         });
@@ -124,7 +131,7 @@
         });
 
         
-       
+       // handle observer
         const removeClassFromEntry = (className, entry) => {
             return entry.target.classList.remove(className, entry.isIntersecting)
         }

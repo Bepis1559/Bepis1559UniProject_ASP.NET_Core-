@@ -1,7 +1,7 @@
 ﻿/* page container */
 
 #progressTrackingPageContainer {
-    min-height: 100dvi;
+    min-height: 100dvb;
     background-color: rgb(20, 20, 20);
     background-image: url("../assets/progressTracking/background.jpg");
     background-position: 50% 0%;
@@ -20,7 +20,7 @@ main#progressTrackingPageContent {
     --color-quaternary: rgb(0, 45, 143);
     --color-quinary: rgb(0, 29, 90);
     --chartButtonBgColor: rgb(255, 26, 102);
-    --subHeadingsColor: rgb(82, 54, 238);
+    --subHeadingsColor: color-mix(in srgb,whitesmoke 90%,rgb(82, 54, 238) 10%) /*rgb(82, 54, 238)*/;
     --headingLetterSpacing: 0.3em;
     --headingWordSpacing: 0.2em;
     --h1fz: clamp(1rem + 1.5vw, 1rem + 2.5vw, 1rem + 3.2vw);

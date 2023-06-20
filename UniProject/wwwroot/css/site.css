@@ -6,6 +6,7 @@
     --overallBorderRadius: 15px;
     --opacityTransition: 2s;
     --translateTranstion: 2s;
+    --mealPageAndMealPlanPageContainersTopMargin : 2em;
 }
 *,
 *::before,

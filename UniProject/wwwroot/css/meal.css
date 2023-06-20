@@ -1,10 +1,18 @@
 ﻿/*meal Page*/
 
-
+body {
+    background-image: url('../assets/Meal/mealBg.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-color: color-mix(in srgb,white 60%,black 40%) !important;
+    background-blend-mode: multiply;
+}
 #mealPageContainer {
     border-radius: var(--overallBorderRadius);
     background: var(--pageContainerBg);
     width: min(80%,1000px);
+    margin-block-start: var(--mealPageAndMealPlanPageContainersTopMargin);
     padding: 1em;
     position: relative;
     box-shadow: -0.6em 0.3em 0em 0.1em rgba(34, 34, 34, 0.5), inset 0em 0em 0.5em 0.1em black;

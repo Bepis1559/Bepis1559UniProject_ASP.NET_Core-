@@ -1,4 +1,8 @@
 ﻿<link rel="stylesheet" href="~/css/meal.css" asp-append-version="true" />
+
+<script src="~/js/html2canvas.min.js" defer></script>
+<script src="~/js/disintegrate.js" defer></script>
+
 @model UniProject.Models.Classes.Meal
 
 @{
@@ -102,34 +106,28 @@
                 entry.target.classList.remove('upTraslated')
             })
         })
-
+        // handle disintegrate
+        disintegrate.init();
+        const thanosSnap = getThanosSnap()
+        disintegrate.addParticleType(thanosSnap);
 
         // allow only for number in the calorie count input
-        CalorieCount.addEventListener('keypress',e =>{
-           
-            if (isNaN(e.key) || event.key.charCodeAt() === 32) {
-                e.preventDefault()
-                
-            }
-        })
+        handleCalorieCountInputValidation()
+        
 
 
         observer.observe(mealPageContainer)
         let MealPlanId
-        let Meals
+       
 
         const options = []
+        handleSubmitButton(submitButton)
         
         // Add a change event listener to the mealPlanSelect element
         mealPlanSelect.addEventListener('change', () => {
 
             // handle robot popup
-            robot.classList.add('showRobot')
-            if (robot.classList.contains('showRobot')){
-                setTimeout(() =>{
-                    robot.classList.remove('showRobot')
-                },10000)
-            }
+            handleRobot(robot)
 
             // remove the initial empty option from the select
 
@@ -137,37 +135,20 @@
                 mealPlanSelect.removeChild(intialOption)
             }
             // Remove any existing sections from the mealPageContainer
-            let sections = mealPageContainer.querySelectorAll('section');
-            sections.forEach(section => {
-
-                section.classList.remove('fadeIn')
-                section.classList.add('fadeOut');
-                setTimeout(() =>{
-                    if (mealPageContainer.contains(section)) {
-                        mealPageContainer.removeChild(section);
-                    }
-                },2000)
-            });
+            removeExistingSectionsFromMealPageContainer()
+           
             // Get the selected MealPlan name
             let selectedMealPlanName = mealPlanSelect.options[mealPlanSelect.selectedIndex].text;
 
-         
+            // handle submit
+            // add a meal - post request
            
 
             // Create a new section for the selected MealPlan
-
-
-            let mealsSection = createElement('section')
-            mealsSection.classList.add('individualMealPlanSection')
-          
-           
-           
+            const mealsSection = handleNewSectionCreation()
             
-            
-            mealsSection.classList.add('fadeIn');
-            
-            mealPageContainer.appendChild(mealsSection);
 
+            // handle the connection between MealPlan and its meals
           // get the currently selected MealPlan name and make a get request by name , so the MealPlan id can be taken
           // get by name
            
@@ -177,9 +158,6 @@
                 type: 'GET',
                 data: { name: MealPlanName },
                 success: function (result) {
-
-
-                    
                     // account for macro nutrients and respective calories
                     // get the values of the macros
                     const macros = result.macroNutrients.split(",").map((el) => parseInt(el));
@@ -191,114 +169,15 @@
 
                      maxCaloriesForThisPlan = macros[0]*caloriesInProtein + macros[1]*caloriesInCarbs + macros[2]*caloriesInFat 
 
-                    console.log('maxCaloriesForThisPlan : ' + maxCaloriesForThisPlan)
+                    //console.log('maxCaloriesForThisPlan : ' + maxCaloriesForThisPlan)
 
 
                     // get the meanPlan id
                     MealPlanId = result.id
 
 
-                    // get all meals for a particular MealPlan , based on this MealPlanId
-                    $.ajax({
-                        url: '/Meal/GetAllMealsBasedOnMealPlanId',
-                        type: 'GET',
-                        data: { mealPlanId: MealPlanId },
-                        success: function (data) {
-
-                           
-                          
-
-
-                            // table creation
-                            const caption = document.createElement('caption')
-                            caption.textContent = `Meals in ${selectedMealPlanName}:`
-                            const mealsTable = createElement('table')
-                                
-                            mealsTable.classList.add('table')
-                            
-                            const tableHead = createElement('thead')
-                         
-                            const nameTH = createElAndAddTextContent('th','Name')
-                            const descriptionTH = createElAndAddTextContent('th', 'Description')
-                            const ingredientsTH = createElAndAddTextContent('th', 'Ingredients')
-                            const calorieCountTH = createElAndAddTextContent('th', 'CalorieCount')
-                            const deleteTH = document.createElement('th')
-                            deleteTH.setAttribute('aria-hidden','true');
-
-                            appendChildren(tableHead, nameTH, descriptionTH, ingredientsTH, calorieCountTH,deleteTH)
-
-                            
-
-                           const tableBody = createElement('tbody')
-                        
-                            data.forEach(meal =>{
-                               
-                                const tableRow = createElement('tr')
-                               
-                                const name = createElAndAddTextContent('td',meal.name)
-                                name.setAttribute("data-thead","Name");
-                                const description = createElAndAddTextContent('td', meal.description)
-                                description.setAttribute("data-thead", "Description");
-                                const ingredients = createElAndAddTextContent('td', meal.ingredients)
-                                ingredients.setAttribute("data-thead", "Ingredients");
-                                const calorieCount = createElAndAddTextContent('td', meal.calorieCount)
-                                // add these calories to the currentCalories
-                                currentCalories += parseInt(calorieCount.innerText)
-                                console.log('currentCalories : ' + currentCalories)
-                                calorieCount.setAttribute("data-thead", "CalorieCount");
-                                const deleteButtonTd = document.createElement('td')
-                                const deleteButton = document.createElement('a')
-                                deleteButton.classList.add('btn','btn-danger')
-                                deleteButton.setAttribute('tabindex','0')
-
-                                //delete button functionality
-
-                                deleteButton.addEventListener('click',() =>{
-                                    const URL = '/Meal/DeleteMealById'
-                                    swal({
-                                        title: 'Are you sure you want to delete that?',
-                                        icon: 'warning',
-                                        buttons: true,
-                                        dangerMode: true
-                                    }).then((willDelete) => {
-                                        if (willDelete) {
-                                            $.ajax({
-                                                url: URL,
-                                                type: 'DELETE',
-                                                data: { id: meal.id },
-                                                success: function (result) {
-                                                    swal('Meal deleted successfully!', {
-                                                        icon: 'success'
-                                                    });
-                                                },
-                                                error: function (xhr, status, error) {
-                                                    swal(error, {
-                                                        icon: 'warning'
-                                                    });
-                                                }
-                                            });
-                                        }
-                                    });
-                                })
-
-                                const trashIcon = document.createElement('i')
-                                trashIcon.classList.add('bi','bi-trash')
-                                deleteButton.appendChild(trashIcon)
-                                deleteButtonTd.appendChild(deleteButton)
-
-                               
-
-                                appendChildren(tableRow, name, description, ingredients, calorieCount, deleteButtonTd)
-                                tableBody.appendChild(tableRow)
-
-                            })
-
-                            appendChildren(mealsTable, caption, tableHead,tableBody)
-                            mealsSection.appendChild(mealsTable)
-                            
-                        }
-                    });
-                  
+                    // generating a new table
+                    generateNewTable(MealPlanId, selectedMealPlanName, mealsSection)
                 }
             });
 
@@ -306,84 +185,314 @@
         });
 
         // get mealPlans and add them as a select option
+        handleSelectOptions(options,mealPlanSelect)
         
-        $.ajax({
-            url: '/MealPlan/GetMealPlans',
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-             
-                // Loop through the list of MealPlans returned from the server
-                for (let i = 0; i < data.length; i++) {
-                    // Create a new option element
-                    let option = document.createElement('option');
-                    
-                    option.value = `${data[i].name}`;
-                    option.text = data[i].name;
-                  
-                    
-                    // Append the option to the dropdown list
-                    mealPlanSelect.appendChild(option);
 
-                    // populate the array with current options
-                    options.push(option)
-                   
-                    
+
+
+
+
+
+
+
+
+
+
+
+
+        // all the functions used above
+
+
+
+        function getThanosSnap() {
+            const result = class thanosSnap {
+                constructor() {
+                    this.name = "ThanosSnap";
+                    this.animationDuration = 1500;
+                    this.size = 3;
+                    this.speedX = Math.random();
+                    this.speedY = Math.random() * -1;
+                    this.first = true;
+                    this.draw = (ctx, percentComplete) => {
+                        if (this.first) {
+                            this.startX += (Math.random() - 0.5) * 10;
+                            this.startY += (Math.random() - 0.5) * 10;
+                            this.first = false;
+                        }
+                        ctx.beginPath();
+                        ctx.fillRect(
+                            this.startX - this.size / 2,
+                            this.startY - this.size / 2,
+                            this.size,
+                            this.size,
+                        );
+                        const r = this.rgbArray[0];
+                        const g = this.rgbArray[1];
+                        const b = this.rgbArray[2];
+                        const a = 1 - percentComplete;
+                        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`;
+                        ctx.fill();
+                        this.speedX *= 1.04;
+                        this.speedY *= 1.04;
+                        this.size *= 0.97;
+                        this.startX += this.speedX;
+                        this.startY += this.speedY;
+                    };
                 }
             }
-        });
-       
-      
-       
-        // handle submit
-        // add a meal - post request
-       
-        
-        submitButton.addEventListener('click',(e) =>{
-            e.preventDefault();
-           
-            if (mealPlanSelect.contains(intialOption)) {
-                swal('You have to select a meal plan first !', {
-                    icon: 'info'
-                })
-            } else if (currentCalories + parseInt(CalorieCount.value) > maxCaloriesForThisPlan || parseInt(CalorieCount.value) > maxCaloriesForThisPlan){
-                swal(`You are exceeding your max calories of ${maxCaloriesForThisPlan} for this meal plan ! You have ${maxCaloriesForThisPlan - currentCalories} left to work with.`, {
-                    icon: 'error'
-                })
-            }
+            return result
+        }
 
-                else{
-                const meal = {
-                    Name: Name.value,
-                    Description: Description.value,
-                    Ingredients: Ingredients.value,
-                    CalorieCount: parseFloat(CalorieCount.value).toString(),
-                    MealPlanId: MealPlanId
-                }
 
-               
-                $.ajax({
-                    url: '/Meal/AddMeal',
-                    type: 'POST',
 
-                    data: meal,
-                    success: function (result) {
-                       
-                        swal('Form submitted successfully!', {
-                            icon: 'success'
-                        })
-                    },
-                    Error: function (xhr, status, error) {
-                        alert(error)
+        function removeExistingSectionsFromMealPageContainer() {
+            let sections = mealPageContainer.querySelectorAll('section');
+            sections.forEach(section => {
+
+                section.classList.remove('fadeIn')
+                section.classList.add('fadeOut');
+                setTimeout(() => {
+                    if (mealPageContainer.contains(section)) {
+                        mealPageContainer.removeChild(section);
                     }
-                })
-            }
-            
-        })
+                }, 2000)
+            });
+        }
 
+
+
+        function handleSelectOptions(options, mealPlanSelect) {
+            $.ajax({
+                url: '/MealPlan/GetMealPlans',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+
+                    // Loop through the list of MealPlans returned from the server
+                    for (let i = 0; i < data.length; i++) {
+                        // Create a new option element
+                        let option = document.createElement('option');
+
+                        option.value = `${data[i].name}`;
+                        option.text = data[i].name;
+
+
+                        // Append the option to the dropdown list
+                        mealPlanSelect.appendChild(option);
+
+                        // populate the array with current options
+                        options.push(option)
+
+
+                    }
+                }
+            });
+        }
         
-       
+
+
+        function handleSubmitButton(submitButton) {
+            let selectedMealPlanName = mealPlanSelect.options[mealPlanSelect.selectedIndex].text;
+            submitButton.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                if (mealPlanSelect.contains(intialOption)) {
+                    swal('You have to select a meal plan first !', {
+                        icon: 'info'
+                    })
+                } else if (currentCalories + parseInt(CalorieCount.value) > maxCaloriesForThisPlan || parseInt(CalorieCount.value) > maxCaloriesForThisPlan) {
+                    swal(`You are exceeding your max calories of ${maxCaloriesForThisPlan} for this meal plan ! You have ${maxCaloriesForThisPlan - currentCalories} left to work with.`, {
+                        icon: 'error'
+                    })
+                }
+
+                else {
+                    const meal = {
+                        Name: Name.value,
+                        Description: Description.value,
+                        Ingredients: Ingredients.value,
+                        CalorieCount: parseFloat(CalorieCount.value).toString(),
+                        MealPlanId: MealPlanId
+                    }
+
+
+                    $.ajax({
+                        url: '/Meal/AddMeal',
+                        type: 'POST',
+
+                        data: meal,
+                        success: function (result) {
+
+                            swal('Form submitted successfully!', {
+                                icon: 'success'
+                            })
+                            removeExistingSectionsFromMealPageContainer()
+                            const mealsSection = handleNewSectionCreation()
+                            generateNewTable(MealPlanId, selectedMealPlanName, mealsSection)
+
+
+                        },
+                        Error: function (xhr, status, error) {
+                            alert(error)
+                        }
+                    })
+                }
+
+            })
+        }
+
+
+
+
+
+        function handleCalorieCountInputValidation() {
+            CalorieCount.addEventListener('keypress', e => {
+                if (isNaN(e.key) || event.key.charCodeAt() === 32) {
+                    e.preventDefault()
+
+                }
+            })
+        }
+
+
+
+
+
+
+        function handleRobot(robot) {
+            robot.classList.add('showRobot')
+            if (robot.classList.contains('showRobot')) {
+                setTimeout(() => {
+                    robot.classList.remove('showRobot')
+                }, 10000)
+            }
+        }
+
+
+
+        function handleNewSectionCreation() {
+            let mealsSection = createElement('section')
+            mealsSection.classList.add('individualMealPlanSection')
+            mealsSection.classList.add('fadeIn');
+            mealPageContainer.appendChild(mealsSection);
+            return mealsSection
+        }
+
+        function generateNewTable(MealPlanId, selectedMealPlanName, mealsSection) {
+            // generating a new table
+
+
+
+            // get all meals for a particular MealPlan , based on this MealPlanId
+            $.ajax({
+                url: '/Meal/GetAllMealsBasedOnMealPlanId',
+                type: 'GET',
+                data: { mealPlanId: MealPlanId },
+                success: function (data) {
+
+
+
+                    const caption = document.createElement('caption')
+                    caption.textContent = `Meals in ${selectedMealPlanName}:`
+                    const mealsTable = createElement('table')
+
+                    mealsTable.classList.add('table')
+
+                    const tableHead = createElement('thead')
+
+                    const nameTH = createElAndAddTextContent('th', 'Name')
+                    const descriptionTH = createElAndAddTextContent('th', 'Description')
+                    const ingredientsTH = createElAndAddTextContent('th', 'Ingredients')
+                    const calorieCountTH = createElAndAddTextContent('th', 'CalorieCount')
+                    const deleteTH = document.createElement('th')
+                    deleteTH.setAttribute('aria-hidden', 'true');
+
+                    appendChildren(tableHead, nameTH, descriptionTH, ingredientsTH, calorieCountTH, deleteTH)
+
+
+
+                    const tableBody = createElement('tbody')
+
+                    data.forEach(meal => {
+
+                        const tableRow = createElement('tr')
+                        tableRow.setAttribute('data-dis-particle-type', 'thanosSnap')
+                        tableRow.setAttribute('data-dis-reduction-factor', '40')
+                        tableRow.setAttribute('data-dis-type', 'simultaneous')
+
+                        const name = createElAndAddTextContent('td', meal.name)
+                        name.setAttribute("data-thead", "Name");
+                        const description = createElAndAddTextContent('td', meal.description)
+                        description.setAttribute("data-thead", "Description");
+                        const ingredients = createElAndAddTextContent('td', meal.ingredients)
+                        ingredients.setAttribute("data-thead", "Ingredients");
+                        const calorieCount = createElAndAddTextContent('td', meal.calorieCount)
+                        // add these calories to the currentCalories
+                        currentCalories += parseInt(calorieCount.innerText)
+                        console.log('currentCalories : ' + currentCalories)
+                        calorieCount.setAttribute("data-thead", "CalorieCount");
+                        const deleteButtonTd = document.createElement('td')
+                        const deleteButton = document.createElement('a')
+                        deleteButton.classList.add('btn', 'btn-danger')
+                        deleteButton.setAttribute('tabindex', '0')
+
+                        //delete button functionality
+
+                        deleteButton.addEventListener('click', () => {
+                            const URL = '/Meal/DeleteMealById'
+                            const currentButtonTableRow = deleteButton.parentElement.parentElement
+                            // console.log(currentButtonTableRow)
+                            swal({
+                                title: 'Are you sure you want to delete that?',
+                                icon: 'warning',
+                                buttons: true,
+                                dangerMode: true
+                            }).then((willDelete) => {
+                                if (willDelete) {
+                                    $.ajax({
+                                        url: URL,
+                                        type: 'DELETE',
+                                        data: { id: meal.id },
+                                        success: function () {
+                                            swal('Meal deleted successfully!', {
+                                                icon: 'success'
+                                            });
+                                           
+                                           //const disObj = disintegrate.getDisObj(currentButtonTableRow);
+                                            
+                                           // disintegrate.createSimultaneousParticles(disObj);
+                                            currentButtonTableRow.remove()
+                                        },
+                                        error: function (xhr, status, error) {
+                                            swal(error, {
+                                                icon: 'warning'
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                        })
+
+                        const trashIcon = document.createElement('i')
+                        trashIcon.classList.add('bi', 'bi-trash')
+                        deleteButton.appendChild(trashIcon)
+                        deleteButtonTd.appendChild(deleteButton)
+
+
+
+                        appendChildren(tableRow, name, description, ingredients, calorieCount, deleteButtonTd)
+                        tableBody.appendChild(tableRow)
+
+                    })
+
+                    appendChildren(mealsTable, caption, tableHead, tableBody)
+                    mealsSection.appendChild(mealsTable)
+
+                }
+            });
+        }
     })
+
 </script>
 
 

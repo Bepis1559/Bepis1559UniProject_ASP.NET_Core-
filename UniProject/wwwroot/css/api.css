@@ -81,10 +81,9 @@ section {
 
 main.myMainContainer  h1 {
    
-    background : linear-gradient(90deg,white,color-mix(in srgb,50% black,50% white),white);
+   color : white;
     text-shadow : 0 0 .1em #333 ;
-    color : transparent;
-    background-clip : text;
+    
     text-align : center;
     margin-block: 2em;
     padding-inline : var(--listItemInlineMargin);

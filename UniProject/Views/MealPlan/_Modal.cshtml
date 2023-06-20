@@ -27,7 +27,7 @@
 
                     <div class="mb-3">
                         <label for="protein" class="form-label">Protein : </label>
-                        <input min="0"  required data-purpose="holdProtein" type="number" class="form-control mealPlanInput nutrient" id="protein" aria-describedby="macroNutrientsHelp">
+                        <input value="50" min="0"  required data-purpose="holdProtein" type="number" class="form-control mealPlanInput nutrient" id="protein" aria-describedby="macroNutrientsHelp">
                         <div class="form-text">Enter the amount of protein for this plan. </div>
                     </div>
 
@@ -35,7 +35,7 @@
 
                     <div class="mb-3">
                         <label for="carbs" class="form-label">Carbohydrates : </label>
-                        <input min="0" required data-purpose="holdCarbs" type="number" class="form-control mealPlanInput nutrient" id="carbs" aria-describedby="carbsHelp">
+                        <input value="100" min="0" required data-purpose="holdCarbs" type="number" class="form-control mealPlanInput nutrient" id="carbs" aria-describedby="carbsHelp">
                         <div  class="form-text">Enter the amount of carbohydrates for this plan.</div>
                     </div>
 
@@ -44,18 +44,9 @@
 
                     <div class="mb-3">
                         <label for="fats" class="form-label">Fats : </label>
-                        <input min="0" required data-purpose="holdMacros" type="number" class="form-control mealPlanInput nutrient" id="fats" aria-describedby="fatsHelp">
+                        <input value="20" min="0" required data-purpose="holdMacros" type="number" class="form-control mealPlanInput nutrient" id="fats" aria-describedby="fatsHelp">
                         <div  class="form-text">Enter the nutrients of your plan</div>
                     </div>
-
-
-
-
-
-
-
-
-
 
 
                     <button data-purpose="submit" type="submit" class="btn btn-primary submitBtn" data-bs-dismiss="modal">Submit</button>
@@ -76,6 +67,8 @@
     const nameInput = selectBasedOnData('input', 'holdName')
     const descriptionInput = selectBasedOnData('input', 'holdDescription')
     const nutrients = document.querySelectorAll('.nutrient')
+    const mealPlanPageContainer = document.getElementById('mealPlanPageContainer')
+    
 
 
     // prevent user input , if not a number for nutrients
@@ -90,13 +83,14 @@
     // post Request
     submitButton.addEventListener('click', (e) => {
         e.preventDefault();
-
+        const currentTable = document.querySelector('.table')
+        
         const mealPlan = {
             name: nameInput.value,
             description: descriptionInput.value,
-            macroNutrients: `${nutrients[0].value}g ${nutrients[0].getAttribute('id')},
-            ${nutrients[1].value}g ${nutrients[1].getAttribute('id')}
-            ,${nutrients[2].value}g ${nutrients[2].getAttribute('id')}`   
+            macroNutrients: `${nutrients[0].value??=50}g ${nutrients[0].getAttribute('id')},
+            ${nutrients[1].value??=50}g ${nutrients[1].getAttribute('id')}
+            ,${nutrients[2].value??=50}g ${nutrients[2].getAttribute('id')}`   
         }
        
         $.ajax({
@@ -107,6 +101,8 @@
                 swal('Form submitted successfully!', {
                     icon: 'success'
                 })
+               const newTable = handleTableGeneration(currentTable)
+                mealPlanPageContainer.appendChild(newTable)
             },
             Error: function (xhr, status, error) {
                 alert(error)
@@ -114,4 +110,90 @@
         })
 
     })
+
+
+    function handleTableGeneration(tableToRemove) {
+       
+        tableToRemove.remove()
+        const newTable = create('table')
+        newTable.classList.add('table')
+        const thead = create('thead')
+        const tbody = create('tbody')
+        const theadRow = create('tr')
+
+        const thName = createAndSetText('th','Name')
+        const thDescription = createAndSetText('th', 'Description')
+        const thMacroNutrients = createAndSetText('th', 'MacroNutrients')
+        const thDelete = create('th')
+        thDelete.setAttribute('aria-hidden',true)
+        appendChildren(theadRow, thName, thDescription, thMacroNutrients, thDelete)
+       
+
+        thead.appendChild(theadRow)
+        newTable.appendChild(thead)
+
+       
+
+
+        // get all mealPlans
+            //< a tabindex="0" data - purpose="deleteMealPlan" class="btn btn-danger " >
+
+            //    <i class="bi bi-trash " > </i>
+            //        < /a>
+        $.ajax({
+            url: '/MealPlan/GetAllMealPlans',
+            type: 'GET',
+            dataType: 'json',
+            success: function (result) {
+                result.forEach(mealPlan =>{
+                    const tbodyRow = create('tr')
+                    const tdName = createAndSetText('td', mealPlan.name)
+                    const tdDescription = createAndSetText('td', mealPlan.description)
+                    const tdMacroNutrients = createAndSetText('td', mealPlan.macroNutrients.replace(/\s*,\s*/g, ","))
+                    
+                    const tdDelete = create('td')
+
+                    // delete Button
+                    const deleteBtn = create('a')
+                    deleteBtn.setAttribute('tabindex',0)
+                    deleteBtn.classList.add('btn', 'btn-danger')
+                    const icon = create('i')
+                    icon.classList.add('bi','bi-trash')
+                    deleteBtn.appendChild(icon)
+                    tdDelete.appendChild(deleteBtn)
+                    //
+                    appendChildren(tbodyRow, tdName, tdDescription, tdMacroNutrients, tdDelete)
+                    tbody.appendChild(tbodyRow)
+                })
+                newTable.appendChild(tbody)
+                mealPlanPageContainer.appendChild(newTable)
+                
+            },
+            Error: function (xhr, status, error) {
+                alert(error)
+            }
+        })
+        
+
+
+        return newTable
+    }
+
+    function appendChildren(parent,...children){
+        children.forEach(child =>{
+            parent.appendChild(child)
+        })
+    }
+    function createAndSetText(element,text){
+        const newElement = document.createElement(element)
+        newElement.innerText = text
+        return newElement
+    }
+
+    function create(element) {
+       const newElement = document.createElement(element)
+        return newElement
+    }
+
+    
 </script>
