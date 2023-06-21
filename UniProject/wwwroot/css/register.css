@@ -1,0 +1,137 @@
+﻿:root {
+    --transitionTime: 0.5s;
+    --fontSize: clamp(1rem, 1rem + 0.35vw, 1rem + 0.55vw);
+    --spanColor: #00dfc4;
+    --bodyBgColor: rgb(27, 27, 27);
+    --bordersColor: rgba(255, 255, 255, 0.5);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+img,
+picture,
+svg,
+video {
+    display: block;
+    max-width: 100%;
+}
+
+input,
+textarea,
+button,
+select {
+    font: inherit;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font: inherit;
+}
+
+/* =============================== */
+
+#RegisterPageContainer {
+    min-height: 100dvb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--fontSize);
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--bodyBgColor);
+    /* background-image: linear-gradient(
+    135deg,
+    rgb(15, 15, 15),
+    rgb(34, 34, 34),
+    rgb(45, 45, 45)
+  ); */
+}
+     #nav{
+        display : none;
+    }
+    #RegisterForm {
+        display: flex;
+        flex-direction: column;
+        gap: 2em;
+        padding: 2em;
+        background: linear-gradient( 135deg, rgba(255, 255, 255, 0.1), rgba(37, 37, 37, 0.767), #333, rgb(26, 26, 26) );
+        border-radius: 1em;
+        /* backdrop-filter: blur(20px); */
+    }
+
+#RegisterPageContainer .inputBox {
+    --childPadding: 0.75em;
+    position: relative;
+}
+
+    #RegisterPageContainer .inputBox input {
+        width: 100%;
+        padding: var(--childPadding);
+        border: 1px solid var(--bordersColor);
+        border-radius: 5px;
+        outline: none;
+        color: #fff;
+        background: transparent;
+        transition: var(--transitionTime);
+    }
+
+    #RegisterPageContainer .inputBox span {
+        position: absolute;
+        left: 0;
+        padding: var(--childPadding);
+        pointer-events: none;
+        color: whitesmoke;
+        text-transform: uppercase;
+        transition: var(--transitionTime);
+    }
+
+    #RegisterPageContainer .inputBox input:valid + span,
+    #RegisterPageContainer .inputBox input:focus + span {
+        padding: 0 0.4em;
+        color: var(--spanColor);
+        translate: 10% -45%;
+        font-size: 70%;
+        background: var(--bodyBgColor);
+        border-left: 1px solid;
+        border-right: 1px solid;
+        letter-spacing: 0.15em;
+    }
+
+    #RegisterPageContainer .inputBox input:valid,
+    #RegisterPageContainer .inputBox input:focus {
+        border-color: var(--spanColor);
+    }
+
+    #RegisterPageContainer .inputBox:nth-of-type(2n) input:valid + span,
+    #RegisterPageContainer .inputBox:nth-of-type(2n) input:focus + span {
+        background: var(--spanColor);
+        color: var(--bodyBgColor);
+        border-radius: 2px;
+    }
+
+#RegisterPageContainer button#registerButton {
+    background: transparent;
+    cursor: pointer;
+    padding: 0.3em 0.6em;
+    outline: none;
+    border: 1px solid var(--bordersColor);
+    border-radius: 0.5em;
+    transition: border-color 0.75s;
+    color: white;
+    margin-block-start: 2em;
+}
+
+    #RegisterPageContainer button#registerButton:is(:hover, :focus-visible) {
+        border-color: var(--spanColor);
+    }
+
+@media (width < 26em) {
+    #RegisterForm {
+        padding: 1em;
+        font-size: 0.85rem;
+    }
+}

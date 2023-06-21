@@ -83,7 +83,10 @@
     // post Request
     submitButton.addEventListener('click', (e) => {
         e.preventDefault();
-        const currentTable = document.querySelector('.table')
+        let currentTable = document.querySelector('.table')
+        if(currentTable == null){
+            currentTable = create('table')
+        }
         
         const mealPlan = {
             name: nameInput.value,
@@ -136,16 +139,14 @@
 
 
         // get all mealPlans
-            //< a tabindex="0" data - purpose="deleteMealPlan" class="btn btn-danger " >
-
-            //    <i class="bi bi-trash " > </i>
-            //        < /a>
+             
         $.ajax({
             url: '/MealPlan/GetAllMealPlans',
             type: 'GET',
             dataType: 'json',
             success: function (result) {
-                result.forEach(mealPlan =>{
+                result.forEach( (mealPlan) =>{
+                    const ids = []
                     const tbodyRow = create('tr')
                     const tdName = createAndSetText('td', mealPlan.name)
                     const tdDescription = createAndSetText('td', mealPlan.description)
@@ -153,6 +154,7 @@
                     
                     const tdDelete = create('td')
 
+                   
                     // delete Button
                     const deleteBtn = create('a')
                     deleteBtn.setAttribute('tabindex',0)
@@ -160,6 +162,44 @@
                     const icon = create('i')
                     icon.classList.add('bi','bi-trash')
                     deleteBtn.appendChild(icon)
+                    deleteBtn.addEventListener('click', () => {
+                       
+
+                        const currentButtonTableRow = deleteBtn.parentElement.parentElement
+                        // console.log(currentButtonTableRow)
+                        swal({
+                            title: 'Are you sure you want to delete that?',
+                            icon: 'warning',
+                            buttons: true,
+                            dangerMode: true
+                        }).then((willDelete) => {
+                            if (willDelete) {
+                                $.ajax({
+                                    url: '/MealPlan/DeleteMealPlanById',
+                                    type: 'DELETE',
+                                    data: { id: mealPlan.id },
+                                    success: function () {
+                                        swal('Meal plan deleted successfully!', {
+                                            icon: 'success'
+                                        });
+
+                                        currentButtonTableRow.remove()
+                                    },
+                                    error: function (xhr, status, error) {
+                                        swal(error, {
+                                            title: 'Something went wrong',
+                                            icon: 'warning',
+                                            dangerMode: true
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    });
+
+
+
+
                     tdDelete.appendChild(deleteBtn)
                     //
                     appendChildren(tbodyRow, tdName, tdDescription, tdMacroNutrients, tdDelete)
