@@ -1,0 +1,42 @@
+﻿@page
+@model LoginModel
+<link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+
+
+<div id="loginPageContainer">
+    <div class="loginContainer centeredFlex positionRelative" id="account" method="post">
+
+        <div class="drop">
+            <div class="content centeredFlex positionRelative">
+                <h2 class="positionRelative">Sign in</h2>
+                <form method="post">
+                    <div class="inputBox">
+                        <input asp-for="Input.Email" type="submit" aria-label="Username" type="text" placeholder="Username" />
+                        
+                    </div>
+                    <div class="inputBox">
+                        <input asp-for="Input.Password" aria-label="Password"
+                               type="password"
+                               placeholder="Password" />
+                    </div>
+                    <div class="inputBox loginInputBox">
+                        <input aria-label="Login" type="submit" value="Login" />
+                    </div>
+                </form>
+            </div>
+        </div>
+        <a asp-page="./ForgotPassword" class="btns centeredFlex">Forgоt Password</a>
+        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="btns centeredFlex signup">Signup</a>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

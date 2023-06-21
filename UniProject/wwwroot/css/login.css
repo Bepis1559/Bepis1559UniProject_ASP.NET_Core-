@@ -1,0 +1,279 @@
+﻿*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    /*color-scheme: dark light;*/
+}
+
+img,
+picture,
+svg,
+video {
+    display: block;
+    max-width: 100%;
+}
+
+input,
+textarea,
+button,
+select {
+    font: inherit;
+}
+
+*:not(h2) {
+    margin: 0;
+    padding: 0;
+    font: inherit;
+}
+
+body {
+    font-size: clamp(1rem, 1rem + 0.35vw, 1rem + 0.55vw);
+    font-family: Arial, Helvetica, sans-serif;
+    /*min-height: 100dvb;*/
+    background: #ebebeb !important;
+}
+
+/* =============================== */
+
+#loginPageContainer{
+
+    min-height : 100dvb;
+    display : flex;
+    justify-content : center;
+    align-items : center;
+    /*padding-block-end : 20vh;*/
+}
+    #loginPageContainer h2{
+        color : #333 ;
+    }
+    #loginPageContainer a {
+        text-decoration: none;
+    }
+#loginPageContainer a:hover{
+color : currentColor;
+}
+    #nav {
+        display: none;
+        background: transparent !important;
+    }
+#nav ul li a {
+   color: #333 !important;
+}
+    .centeredFlex {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+.positionRelative {
+    position: relative;
+}
+
+.loginContainer {
+    container-type: inline-size;
+    width: min(80%, 20em);
+}
+
+.loginContainer .drop {
+    padding: 1.3em 2.6em;
+    font-size: clamp(0.3rem + 1cqi, 0.5rem + 2.5cqi, 0.5rem + 3.5cqi);
+    display: grid;
+    aspect-ratio: 1/1;
+    box-shadow: inset 1em 1em 1em rgba(0, 0, 0, 0.05), 1.5em 2em 1em rgba(0, 0, 0, 0.05), 1.5em 1.7em 1.7em rgba(0, 0, 0, 0.05), inset -1em -1em 1.5em rgba(255, 255, 255, 0.9);
+    /* background: white; */
+    transition: border-radius 0.5s;
+    border-radius: 52% 48% 33% 67% / 38% 45% 55% 62%;
+}
+
+    .loginContainer .drop:hover {
+        border-radius: 50%;
+    }
+
+    .loginContainer .drop > * {
+        grid-area: 1/-1;
+    }
+
+    .loginContainer .drop::before,
+    .loginContainer .drop::after {
+        content: "";
+        grid-area: 1/-1;
+        aspect-ratio: 1/1;
+        background: #fff;
+        opacity: 0.9;
+        border-radius: 50%;
+    }
+
+    .loginContainer .drop::before {
+        margin-block-start: 1.2em;
+        margin-inline-start: 1.5em;
+        height: 10%;
+    }
+
+    .loginContainer .drop::after {
+        height: 5%;
+        margin-block-start: 3em;
+        margin-inline-start: 4em;
+    }
+
+    .loginContainer .drop .content {
+        flex-direction: column;
+        text-align: center;
+        padding: 2.2em;
+        gap: 1em;
+    }
+
+        .loginContainer .drop .content h2 {
+            color: #333;
+            /* font-size: 1.5rem; */
+        }
+
+        .loginContainer .drop .content form input:not([value="Login"]) {
+            margin-block-end: 1em;
+        }
+
+        .loginContainer .drop .content form .inputBox {
+            position: relative;
+        }
+
+            .loginContainer .drop .content form .inputBox::before {
+                content: "";
+                position: absolute;
+                cursor: pointer;
+                top: 5%;
+                left: 50%;
+                translate: -50% 0;
+                width: 65%;
+                height: 7%;
+                background: rgba(255, 255, 255, 0.5);
+                border-radius: 1em;
+            }
+
+        .loginContainer .drop .content form input {
+            border: none;
+            outline: none;
+            color: black;
+            border-radius: 1em;
+            padding: 0.5em 1em;
+            box-shadow: inset 1em 1em 1em rgba(0, 0, 0, 0.05), inset -1em -1em 1.5em rgba(255, 255, 255, 0.9);
+            background: transparent;
+            width: 100%;
+        }
+
+        .loginContainer .drop .content form .inputBox input[type="submit"] {
+            color: #fff;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            border-radius: 1em;
+            box-shadow: 0.4em 0.4em 0.4em 0.4em #f1f1f1, inset -0.1em -0.1em 0.3em 0.1em;
+            padding: 0.6em;
+        }
+
+        .loginContainer .drop .content form .inputBox.loginInputBox {
+            background: #ff0f56 !important;
+            border-radius: 1em;
+            width: 60%;
+            transition: width 0.5s;
+            margin-inline: auto;
+        }
+
+            .loginContainer .drop .content form .inputBox.loginInputBox:hover {
+                width: 75%;
+            }
+
+/* =============================== */
+
+.btns {
+    position: absolute;
+    right: -50cqi;
+    bottom: 0;
+    width: 7em;
+    aspect-ratio: 1/1;
+    background: #c61dff;
+    cursor: pointer;
+    text-decoration: none;
+    color: #fff;
+    line-height: 1.2em;
+    letter-spacing: 0.1em;
+    box-shadow: inset 1em 1em 1em rgba(0, 0, 0, 0.05), 1.5em 2em 0.5em rgba(0, 0, 0, 0.05), 1.5em 1.7em 1.7em rgba(0, 0, 0, 0.05), 2em 2em 1em 0em #c71dff3a, inset -1em -1em 1.5em rgba(128, 128, 128, 0.603);
+    border-radius: 44% 56% 65% 35% / 57% 58% 42% 43%;
+    transition: border-radius 0.25s;
+    text-align: center;
+}
+
+    .btns::before {
+        content: "";
+        position: absolute;
+        top: 15%;
+        left: 25%;
+        height: 17%;
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+        background: #fff;
+        opacity: 0.45;
+    }
+
+    .btns.signup {
+       
+        bottom: 60%;
+        /* width: 30%; */
+        aspect-ratio: 1/1;
+        border-radius: 63% 37% 54% 46% / 58% 57% 43% 42%;
+        background: #01b4ff;
+        box-shadow: inset 1em 1em 1em rgba(0, 0, 0, 0.05), 1.5em 2em 0.5em rgba(0, 0, 0, 0.05), 1.5em 1.7em 1.7em rgba(0, 0, 0, 0.05), 2em 2em 1em 0em #01b3ff54, inset -1em -1em 1.5em rgba(128, 128, 128, 0.603);
+    }
+
+    .btns:hover {
+        border-radius: 50%;
+    }
+
+@media (width < 48em) {
+    .btns {
+        right: 0;
+        top: 110%;
+    }
+
+        .btns.signup {
+            left: 0;
+        }
+}
+
+@media (width < 24em) {
+    .loginContainer .drop {
+        padding: .5em;
+        margin-block: 2.5em 0em;
+    }
+
+        .loginContainer .drop input{
+          
+            width : 100% ;
+        }
+
+        .btns {
+            transform: translateX(-50%);
+        }
+
+        .btns.signup {
+            top: -50%;
+            transform: translateX(50%);
+        }
+
+    .loginContainer .drop::after {
+        margin-inline-start: 3em;
+        margin-block-start: 4em;
+    }
+
+    .loginContainer .drop .content form .inputBox.loginInputBox{
+        width : 70%;
+    }
+
+
+    .loginContainer .drop::before {
+        margin-block-start: 2em;
+       
+    }
+}
